@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/natural"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:background="@drawable/sea">
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/imageLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/f"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#cccccc"/>
+
+
+
+        <com.project.attendanceforstudent.customfonts.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monday"
+            android:textSize="20dp"
+            android:textColor="@color/weekcolor"
+            android:letterSpacing="0.025"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+
+        <com.project.attendanceforstudent.customfonts.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily Agenda"
+            android:letterSpacing="0.025"
+            android:textSize="14dp"
+            android:textColor="@color/agendacolor"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+
+        <LinearLayout
+        android:layout_below="@+id/natural"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/ic_technology_5"
+                android:layout_gravity="center"
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 a.m"
+                android:textSize="14dp"
+                android:textColor="@color/timecolor"
+                android:letterSpacing="0.025"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wake Up"
+                android:textColor="@color/schedulecolor"
+                android:letterSpacing="0.025"
+                android:layout_marginLeft="30dp"
+                android:textSize="14dp"
+
+                />
+
+    <com.project.attendanceforstudent.customfonts.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Morning Schedule Time"
+        android:layout_marginLeft="30dp"
+        android:textColor="@color/statementcolor"
+        android:letterSpacing="0.025"
+        android:textSize="12dp"
+        android:layout_marginTop="5dp"
+       />
+
+</LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="#99A1AC"
+            android:layout_marginTop="20dp"/>
+
+
+
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+
+
+
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/ic_cup"
+                android:layout_gravity="center"
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 p.m"
+                android:textColor="@color/timecolor"
+                android:textSize="14dp"
+                android:letterSpacing="0.025"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"/>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical">
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lunch"
+                android:letterSpacing="0.025"
+                android:textColor="@color/schedulecolor"
+                android:layout_marginLeft="30dp"
+                android:textSize="14dp"
+
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lunch Schedule Time"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:letterSpacing="0.025"
+                android:textColor="@color/statementcolor"
+                android:textSize="12dp" />
+
+     </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="#99A1AC"
+            android:layout_marginTop="20dp"/>
+
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+
+
+
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="50dp"
+                android:background="@drawable/ic_suitcase"
+                android:layout_gravity="center"
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3 p.m"
+                android:textSize="14dp"
+                android:letterSpacing="0.025"
+                android:textColor="@color/timecolor"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work"
+                android:letterSpacing="0.025"
+                android:textColor="@color/schedulecolor"
+                android:layout_marginLeft="30dp"
+                android:textSize="14dp"
+
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work Schedule Time"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:letterSpacing="0.025"
+                android:textColor="@color/statementcolor"
+                android:textSize="12dp"
+               />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="#99A1AC"
+            android:layout_marginTop="20dp"/>
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="50dp"
+
+                android:background="@drawable/ic_appointment_book"
+                android:layout_gravity="center"
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 p.m"
+                android:textSize="14dp"
+                android:letterSpacing="0.025"
+                android:textColor="@color/timecolor"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meeting"
+                android:letterSpacing="0.025"
+                android:textColor="#000"
+                android:layout_marginLeft="30dp"
+                android:textSize="14dp"
+
+                />
+
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meeting Schedule Time"
+                android:layout_marginLeft="30dp"
+                android:letterSpacing="0.025"
+                android:textColor="@color/statementcolor"
+                android:textSize="12dp"
+                android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="#99A1AC"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"/>
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+
+
+
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="50dp"
+
+                    android:background="@drawable/ic_appointment_book"
+                    android:layout_gravity="center"
+                    />
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6 p.m"
+                    android:textSize="14dp"
+                    android:letterSpacing="0.025"
+                    android:textColor="@color/timecolor"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.project.attendanceforstudent.customfonts.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Meeting"
+                        android:letterSpacing="0.025"
+                        android:textColor="#000"
+                        android:layout_marginLeft="30dp"
+                        android:textSize="14dp"
+
+                        />
+
+
+                    <com.project.attendanceforstudent.customfonts.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Meeting Schedule Time"
+                        android:layout_marginLeft="30dp"
+                        android:letterSpacing="0.025"
+                        android:textColor="@color/statementcolor"
+                        android:textSize="12dp"
+                        android:layout_marginTop="5dp"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_three"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
+    <com.project.attendanceforstudent.customfonts.MyTextView
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jessica Roy"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:letterSpacing="0.025"
+        android:textColor="@color/dpnamecolor"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="18dp"/>
+
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_tool_2"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"/>
+
+
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_plus"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
+</RelativeLayout>
