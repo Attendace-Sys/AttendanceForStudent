@@ -1,7 +1,5 @@
 package com.project.attendanceforstudent;
 
-import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -9,13 +7,11 @@ import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -28,37 +24,24 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
-
 import com.project.attendanceforstudent.Networking.ApiConfig;
 import com.project.attendanceforstudent.Networking.AppConfig;
-import com.project.attendanceforstudent.Networking.Student;
-
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.internal.http.StatusLine;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +52,9 @@ public class DetectVideoActivity extends AppCompatActivity {
     private VideoView videoPreview;
     private Button btnDetectFace;
     private Button btnSendData;
-    GridView mGridView;
+    private GridView mGridView;
+    //private SpinKitView spinKitView;
+    private LinearLayout loadingLinearLayout;
 
     private String videoPath;
     private String studentName;
@@ -85,7 +70,7 @@ public class DetectVideoActivity extends AppCompatActivity {
 
     MyAdapter myAdapter;
 
-    public ProgressDialog pDialog;
+//    public ProgressDialog pDialog;
 
     String cookie;
 
@@ -96,13 +81,11 @@ public class DetectVideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_video);
 
-
-        //db = new DBHelper(DetectVideoActivity.this);
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
-
+        //spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
         btnSendData = (Button) findViewById(R.id.send_data);
-        //mListView = (ListView) findViewById(R.id.list_view);
         mGridView = (GridView) findViewById(R.id.gridView);
+        loadingLinearLayout = (LinearLayout) findViewById(R.id.loadingLinearLayout);
 
         Bundle bundle = getIntent().getExtras();
         videoPath = bundle.getString("videoPath");
@@ -110,7 +93,8 @@ public class DetectVideoActivity extends AppCompatActivity {
         studentId = bundle.getString("studentId");
         studentEmail = bundle.getString("studentEmail");
 
-        initDialog();
+        loadingLinearLayout.setVisibility(View.VISIBLE);
+        //initDialog();
 
         if (videoPath != null) {
 
@@ -123,35 +107,26 @@ public class DetectVideoActivity extends AppCompatActivity {
                 videoPreview.setMediaController(mediaController);
                 mediaController.setAnchorView(videoPreview);
 
-                btnDetectFace.setEnabled(true);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            showpDialog();
+
+            //showpDialog();
 
             extractFrameInVideo(videoPath);
 
             btnSendData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    showpDialog();
-
+                    loadingLinearLayout.setVisibility(View.VISIBLE);
+                    //showpDialog();
 
                     File fileVideo = new File(videoPath);
-                    File[] lis = new File[2];
-                    lis[0] = fileVideo;
-                    lis[1] = fileVideo;
-
-                    //File file;
-
-                    //Map<String, MultipartBody.Part> imgFiles = new HashMap<String, MultipartBody.Part>();
 
                     List<MultipartBody.Part> imgParts = new ArrayList<>();
 
-                    for (Bitmap bitmap: listBitmap){
+                    for (Bitmap bitmap : listBitmap) {
                         String fileName = studentId;
                         File file = convertToFile(bitmap, fileName);
                         RequestBody requestImg = RequestBody.create(MediaType.parse("image/*"), file);
@@ -178,19 +153,23 @@ public class DetectVideoActivity extends AppCompatActivity {
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (response.isSuccessful()) {
                                 if (response.body() != null) {
-                                    hidepDialog();
+                                    //hidepDialog();
+                                    loadingLinearLayout.setVisibility(View.GONE);
                                     Toast.makeText(getApplicationContext(), "Success upload!", Toast.LENGTH_SHORT).show();
 
                                 }
                             } else {
-                                hidepDialog();
+                                //hidepDialog();
+                                loadingLinearLayout.setVisibility(View.GONE);
+
                                 Toast.makeText(getApplicationContext(), "Problem uploading video", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            hidepDialog();
+                            //hidepDialog();
+                            loadingLinearLayout.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "Failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -222,41 +201,26 @@ public class DetectVideoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         //Student serverResponse = response.body();
-                        hidepDialog();
+//                        hidepDialog();
+                        loadingLinearLayout.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
+                    loadingLinearLayout.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "problem uploading video", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                loadingLinearLayout.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
     }
-
-    private void initDialog() {
-        pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Uploading...");
-        pDialog.setCancelable(true);
-    }
-
-    protected void showpDialog() {
-
-        if (!pDialog.isShowing()) pDialog.show();
-    }
-
-    protected void hidepDialog() {
-
-        if (pDialog.isShowing()) pDialog.dismiss();
-    }
-
 
     private void extractFrameInVideo(String srcPath) {
         temp = 0;
@@ -315,6 +279,10 @@ public class DetectVideoActivity extends AppCompatActivity {
 
     private Bitmap rotateBitmap(Bitmap bmpOriginal, String rotation) {
 
+        if (bmpOriginal == null)
+        {
+            return null;
+        }
         int mBitW = Integer.parseInt(String.valueOf(bmpOriginal.getWidth()));
         int mBitH = Integer.parseInt(String.valueOf(bmpOriginal.getHeight()));
 
@@ -357,13 +325,13 @@ public class DetectVideoActivity extends AppCompatActivity {
             temp++;
         }
 
-        if (temp == max)
-        {
+        if (temp == max) {
             btnSendData.setEnabled(true);
             myAdapter = new MyAdapter(DetectVideoActivity.this, listBitmap);
 
             mGridView.setAdapter(myAdapter);
-            hidepDialog();
+//            hidepDialog();
+            loadingLinearLayout.setVisibility(View.GONE);
         }
     }
 
@@ -410,47 +378,5 @@ public class DetectVideoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return file;
-    }
-
-    public void uploadImageToServer(Bitmap bitmap, String id, int count) {
-        String fileName = id + "_" + count;
-
-        RequestBody idBody = RequestBody.create(MediaType.parse("text/plain"), id);
-        //RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), fileName);
-
-        //byte[] bytes = convertBitmapToByteArray(bitmap);
-        File imageFile = convertToFile(bitmap, fileName);
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
-
-        MultipartBody.Part part = MultipartBody.Part.createFormData("image_data", fileName + ".png", requestBody);
-
-        ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
-
-        Call<ResponseBody> call = getResponse.uploadImage(idBody, part);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-
-                        //Student serverResponse = response.body();
-                        Toast.makeText(getApplicationContext(), "Upload " + temp + " success", Toast.LENGTH_SHORT).show();
-
-                    }
-                } else {
-
-                    Toast.makeText(getApplicationContext(), "problem uploading image " + temp, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                Toast.makeText(getApplicationContext(), "failure uploading image " + temp + t.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
     }
 }

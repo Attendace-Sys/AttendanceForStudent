@@ -18,6 +18,28 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/loadingLinearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#00BA9B"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:translationZ="2dp"
+        android:visibility="gone">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.CubeGrid"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            app:SpinKit_Color="#FFFFFF" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/imageLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

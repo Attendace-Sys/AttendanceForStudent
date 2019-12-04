@@ -7,6 +7,28 @@
     tools:context=".DetectVideoActivity">
 
     <LinearLayout
+        android:id="@+id/loadingLinearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#00BA9B"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:translationZ="2dp"
+        android:visibility="gone">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Large.CubeGrid"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            app:SpinKit_Color="#FFFFFF" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/layout_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,14 +60,8 @@
             android:layout_height="match_parent"
             android:numColumns="4"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="5dp" />
-
-<!--        <ListView-->
-<!--            android:id="@+id/list_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent" >-->
-
-<!--        </ListView>-->
+            android:verticalSpacing="5dp" >
+        </GridView>
     </LinearLayout>
 
     <LinearLayout
@@ -66,6 +82,5 @@
             android:text="@string/btn_send"
             tools:ignore="Suspicious0dp" />
     </LinearLayout>
-
 
 </RelativeLayout>

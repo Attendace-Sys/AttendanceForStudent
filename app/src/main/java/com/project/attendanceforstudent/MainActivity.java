@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.hardware.camera2.CameraCharacteristics;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText name, id, mail;
     Button btnSelect, btnRecordVideo;
+    private LinearLayout loadingLinearLayout;
 
     String selectedVideoPath;
     String fileManagerString;
@@ -70,25 +71,19 @@ public class MainActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.student_name);
         id = (EditText) findViewById(R.id.student_id);
         mail = (EditText)findViewById(R.id.email);
-
-//        btnSelect.setEnabled(false);
-//        btnRecordVideo.setEnabled(false);
-
-//        if ((name.getText().toString() != null) && (id.getText().toString() != null) && (mail.getText()).toString() != null) {
-//            studentName = name.getText().toString();
-//            studentId = id.getText().toString();
-//            studentEmail = mail.getText().toString();
-//        }
+        loadingLinearLayout = (LinearLayout) findViewById(R.id.loadingLinearLayout);
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //loadingLinearLayout.setVisibility(View.VISIBLE);
                 selectVideoFromGallery();
             }
         });
         btnRecordVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingLinearLayout.setVisibility(View.VISIBLE);
                 captureVideo();
             }
         });
@@ -113,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
         }
 
-        videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 4);
+        videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 3);
         videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 
         if (videoIntent.resolveActivity(getPackageManager()) != null) {
@@ -125,28 +120,61 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+
         } else {
             intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.INTERNAL_CONTENT_URI);
         }
         intent.setType("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        intent.setAction(Intent.ACTION_PICK);
         intent.putExtra("return-data", true);
         startActivityForResult(intent, SELECT_VIDEO_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ((requestCode == SELECT_VIDEO_REQUEST_CODE && resultCode == RESULT_OK)
-                || (requestCode == CAPTURE_VIDEO_REQUEST_CODE && resultCode == RESULT_OK)) {
+        if (requestCode == CAPTURE_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {
             if (data.getData() != null) {
 //                String selectedVideoPath = getPath(data.getData(), activity);
                 Uri selectedImageUri = data.getData();
 
                 // OI FILE Manager
-                fileManagerString = selectedImageUri.getPath();
+                //fileManagerString = selectedImageUri.getPath();
 
                 // MEDIA GALLERY
                 selectedVideoPath = getPath(selectedImageUri);
+                if (selectedVideoPath != null) {
+
+                    studentName = name.getText().toString();
+                    studentId = id.getText().toString();
+                    studentEmail = mail.getText().toString();
+
+                    Intent intent = new Intent(MainActivity.this,
+                            DetectVideoActivity.class);
+
+                    intent.putExtra("videoPath", selectedVideoPath);
+                    intent.putExtra("studentName", studentName);
+                    intent.putExtra("studentId", studentId);
+                    intent.putExtra("studentEmail", studentEmail);
+                    startActivity(intent);
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed to take video", Toast.LENGTH_LONG).show();
+            }
+        }else if (requestCode == SELECT_VIDEO_REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            loadingLinearLayout.setVisibility(View.VISIBLE);
+            if (data.getData() != null) {
+//                String selectedVideoPath = getPath(data.getData(), activity);
+                Uri selectedImageUri = data.getData();
+
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                //Get the column index of MediaStore.Images.Media.DATA
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                // MEDIA GALLERY
+                selectedVideoPath = cursor.getString(columnIndex);
                 if (selectedVideoPath != null) {
 
                     studentName = name.getText().toString();
@@ -174,9 +202,14 @@ public class MainActivity extends AppCompatActivity {
         if (cursor != null) {
             // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
             // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
             cursor.moveToFirst();
+
+            int column_index = cursor
+                    .getColumnIndexOrThrow(projection[0]);
+//            int column_index = cursor
+//                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+//            cursor.moveToFirst();
+
             return cursor.getString(column_index);
         } else
             return null;
