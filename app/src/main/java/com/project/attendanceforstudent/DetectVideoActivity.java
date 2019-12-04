@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.Toast;
@@ -30,23 +31,34 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 
 import com.project.attendanceforstudent.Networking.ApiConfig;
 import com.project.attendanceforstudent.Networking.AppConfig;
+import com.project.attendanceforstudent.Networking.Student;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.internal.http.StatusLine;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,14 +69,15 @@ public class DetectVideoActivity extends AppCompatActivity {
     private VideoView videoPreview;
     private Button btnDetectFace;
     private Button btnSendData;
-    ListView mListView;
+    GridView mGridView;
 
     private String videoPath;
     private String studentName;
     private String studentId;
+    private String studentEmail;
 
-    private MediaPlayer mediaPlayer=null;
-    private MediaController mediaController=null;
+    private MediaPlayer mediaPlayer = null;
+    private MediaController mediaController = null;
     private int temp = 0;
 
     private ArrayList<Bitmap> listBitmap;
@@ -74,25 +87,32 @@ public class DetectVideoActivity extends AppCompatActivity {
 
     public ProgressDialog pDialog;
 
+    String cookie;
+
+    int max;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_video);
+
+
         //db = new DBHelper(DetectVideoActivity.this);
-        videoPreview = (VideoView)findViewById(R.id.videoPreview);
-        btnDetectFace = (Button)findViewById(R.id.btn_detect);
-        btnSendData = (Button)findViewById(R.id.send_data);
-        mListView = (ListView) findViewById(R.id.list_view);
+        videoPreview = (VideoView) findViewById(R.id.videoPreview);
+
+        btnSendData = (Button) findViewById(R.id.send_data);
+        //mListView = (ListView) findViewById(R.id.list_view);
+        mGridView = (GridView) findViewById(R.id.gridView);
 
         Bundle bundle = getIntent().getExtras();
         videoPath = bundle.getString("videoPath");
         studentName = bundle.getString("studentName");
         studentId = bundle.getString("studentId");
+        studentEmail = bundle.getString("studentEmail");
 
         initDialog();
-        
-        if (videoPath != null)
-        {
+
+        if (videoPath != null) {
 
             Uri uri = Uri.parse(videoPath);
             try {
@@ -102,75 +122,123 @@ public class DetectVideoActivity extends AppCompatActivity {
                 MediaController mediaController = new MediaController(this);
                 videoPreview.setMediaController(mediaController);
                 mediaController.setAnchorView(videoPreview);
-//                videoPreview.start();
-//                if (editTextStudentId.getText() != null)
-//                {
-                    btnDetectFace.setEnabled(true);
-//                }
 
-            }catch (Exception e)
-            {
+                btnDetectFace.setEnabled(true);
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             showpDialog();
 
-            // Map is used to multipart the file using okhttp3.RequestBody
-           //Map<String, RequestBody> map = new HashMap<>();
-            File file = new File(videoPath);
+            extractFrameInVideo(videoPath);
 
-            // Parsing any Media type file
-            RequestBody requestBody = RequestBody.create(MediaType.parse("video/*"), file);
-            //map.put("student_video_data", requestBody);
-            // Create MultipartBody.Part using file request-body,file name and part name
-            MultipartBody.Part part = MultipartBody.Part.createFormData("student_video_data", studentId + ".mp4", requestBody);
-
-            ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
-            String studentEmail = studentId + "@gm.uit.edu.vn";
-            RequestBody idBody = RequestBody.create(MediaType.parse("text/plain"), studentId);
-            RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), studentName);
-            RequestBody mailBody = RequestBody.create(MediaType.parse("text/plain"), studentEmail);
-
-            Call<ResponseBody> call = getResponse.upload(idBody, nameBody, mailBody, part);
-            call.enqueue(new Callback<ResponseBody>() {
+            btnSendData.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()){
-                        if (response.body() != null){
-                            hidepDialog();
-                            //Student serverResponse = response.body();
-                            Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                public void onClick(View v) {
 
-                        }
-                    }else {
-                        hidepDialog();
-                        Toast.makeText(getApplicationContext(), "problem uploading video", Toast.LENGTH_SHORT).show();
+                    showpDialog();
+
+
+                    File fileVideo = new File(videoPath);
+                    File[] lis = new File[2];
+                    lis[0] = fileVideo;
+                    lis[1] = fileVideo;
+
+                    //File file;
+
+                    //Map<String, MultipartBody.Part> imgFiles = new HashMap<String, MultipartBody.Part>();
+
+                    List<MultipartBody.Part> imgParts = new ArrayList<>();
+
+                    for (Bitmap bitmap: listBitmap){
+                        String fileName = studentId;
+                        File file = convertToFile(bitmap, fileName);
+                        RequestBody requestImg = RequestBody.create(MediaType.parse("image/*"), file);
+                        MultipartBody.Part part = MultipartBody.Part.createFormData("files", file.getName(), requestImg);
+
+                        imgParts.add(part);
+
                     }
-                }
+                    // Parsing any Media type file
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("video/*"), fileVideo);
+                    //map.put("student_video_data", requestBody);
+                    // Create MultipartBody.Part using file request-body,file name and part name
+                    MultipartBody.Part part = MultipartBody.Part.createFormData("student_video_data", studentId + ".mp4", requestBody);
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    hidepDialog();
-                    Toast.makeText(getApplicationContext(), "failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
 
+                    RequestBody idBody = RequestBody.create(MediaType.parse("text/plain"), studentId);
+                    RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), studentName);
+                    RequestBody mailBody = RequestBody.create(MediaType.parse("text/plain"), studentEmail);
+
+                    Call<ResponseBody> call = getResponse.uploadStudentProfile(idBody, nameBody, mailBody, part, imgParts);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                if (response.body() != null) {
+                                    hidepDialog();
+                                    Toast.makeText(getApplicationContext(), "Success upload!", Toast.LENGTH_SHORT).show();
+
+                                }
+                            } else {
+                                hidepDialog();
+                                Toast.makeText(getApplicationContext(), "Problem uploading video", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            hidepDialog();
+                            Toast.makeText(getApplicationContext(), "Failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 
-//            myAdapter = new MyAdapter(DetectVideoActivity.this, listBitmap);
-//            mListView.setAdapter(myAdapter);
-//            studentId = editTextStudentId.getText().toString();
+        }
+    }
 
-            btnDetectFace.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    extractFrameInVideo(videoPath);
+    private void uploadVideo(String videoPath) {
+        File file = new File(videoPath);
 
+        // Parsing any Media type file
+        RequestBody requestBody = RequestBody.create(MediaType.parse("video/*"), file);
+        //map.put("student_video_data", requestBody);
+        // Create MultipartBody.Part using file request-body,file name and part name
+        MultipartBody.Part part = MultipartBody.Part.createFormData("student_video_data", studentId + ".mp4", requestBody);
+
+        ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
+
+        RequestBody idBody = RequestBody.create(MediaType.parse("text/plain"), studentId);
+        RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), studentName);
+        RequestBody mailBody = RequestBody.create(MediaType.parse("text/plain"), studentEmail);
+
+        Call<ResponseBody> call = getResponse.upload(idBody, nameBody, mailBody, part);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        //Student serverResponse = response.body();
+                        hidepDialog();
+                        Toast.makeText(getApplicationContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "problem uploading video", Toast.LENGTH_SHORT).show();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
-            );
+        });
 
-        }
     }
 
     private void initDialog() {
@@ -205,14 +273,14 @@ public class DetectVideoActivity extends AppCompatActivity {
 
         Bitmap bmpOriginal = null;
 
-        int max = (int) (Long.parseLong(METADATA_KEY_DURATION)*3/1000);
+        max = (int) (Long.parseLong(METADATA_KEY_DURATION) * 4 / 1000);
 
         listBitmap = new ArrayList<Bitmap>();
 
         listFrame = new ArrayList<Bitmap>();
 
         for (int index = 0; index < max; index++) {
-            int time = index * 1000 /3;
+            int time = index * 1000 / 4;
             bmpOriginal = mmr.getFrameAtTime(time * 1000, FFmpegMediaMetadataRetriever.OPTION_CLOSEST);
 
             listFrame.add(rotateBitmap(bmpOriginal, rotation));
@@ -237,7 +305,7 @@ public class DetectVideoActivity extends AppCompatActivity {
                         }
                     });
 
-            Toast.makeText(this,String.format("In %d detect loop HAVE %d faces in image",index,temp), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, String.format("In %d detect loop HAVE %d faces in image", index, temp), Toast.LENGTH_SHORT).show();
 
         }
         mmr.release();
@@ -246,23 +314,9 @@ public class DetectVideoActivity extends AppCompatActivity {
     }
 
     private Bitmap rotateBitmap(Bitmap bmpOriginal, String rotation) {
-//        int mBitW = Integer.parseInt(String.valueOf(bmpOriginal.getWidth()));
-//        int mBitH = Integer.parseInt(String.valueOf(bmpOriginal.getHeight()));
-//
-//        int orientation = getResources().getConfiguration().orientation;
-//        Bitmap fixedBitmapRotation = null;
-//
-//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            // Do nothing because Landscape doesn't give wrong Bitmap rotation
-//        } else {
-//            if (mBitW>mBitH){
-//                Matrix matrix = new Matrix();
-//                matrix.postRotate(-90);
-//                fixedBitmapRotation = Bitmap.createBitmap(bmpOriginal, 0, 0, bmpOriginal.getWidth(), bmpOriginal.getHeight(), matrix, true);
-//                fixedBitmapRotation.getHeight();
-//            }
-//        }
-//        return fixedBitmapRotation;
+
+        int mBitW = Integer.parseInt(String.valueOf(bmpOriginal.getWidth()));
+        int mBitH = Integer.parseInt(String.valueOf(bmpOriginal.getHeight()));
 
         Matrix matrix = new Matrix();
         switch (rotation) {
@@ -276,7 +330,7 @@ public class DetectVideoActivity extends AppCompatActivity {
                 return bmpOriginal;
         }
         try {
-            Bitmap bmRotated = Bitmap.createBitmap(bmpOriginal, 0, 0, bmpOriginal.getWidth(), bmpOriginal.getHeight(), matrix, true);
+            Bitmap bmRotated = Bitmap.createBitmap(bmpOriginal, 0, 0, mBitW, mBitH, matrix, true);
             return bmRotated;
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
@@ -286,33 +340,31 @@ public class DetectVideoActivity extends AppCompatActivity {
     }
 
     private void processFaceResult(List<FirebaseVisionFace> faces, FirebaseVisionImage image) {
- //       int count = 0;
-        for(FirebaseVisionFace face: faces)
-        {
+        //       int count = 0;
+        for (FirebaseVisionFace face : faces) {
             Rect bounds = face.getBoundingBox();
 
             Bitmap bitmap = cropBitmap(image.getBitmap(), bounds);
 
             //File mFile = new File("/sdcard/pictureTest");
-            bitmap = Bitmap.createScaledBitmap(bitmap,160, 160, true);
+            bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
             //long result = db.addStudentImage(studentId, Utils.getBytes(bitmap));
 
             listBitmap.add(bitmap);
 
-            myAdapter = new MyAdapter(DetectVideoActivity.this, listBitmap);
-            mListView.setAdapter(myAdapter);
+//            uploadImageToServer(bitmap, studentId, temp);
 
-            //File file = new File(String.valueOf(bitmap));
-
-            showpDialog();
-
-            uploadImageToServer(bitmap, studentId, temp);
-
-//            Toast.makeText(this,String.format("Save bitmap"+count +" ("+ bitmap.getHeight()+ ":"+bitmap.getWidth()+")  result = "+ "student id = " + studentId), Toast.LENGTH_SHORT).show();
-//            count ++;
             temp++;
         }
-        Toast.makeText(this,String.format(""+temp), Toast.LENGTH_SHORT).show();
+
+        if (temp == max)
+        {
+            btnSendData.setEnabled(true);
+            myAdapter = new MyAdapter(DetectVideoActivity.this, listBitmap);
+
+            mGridView.setAdapter(myAdapter);
+            hidepDialog();
+        }
     }
 
     public static Bitmap cropBitmap(Bitmap bitmap, Rect rect) {
@@ -324,9 +376,8 @@ public class DetectVideoActivity extends AppCompatActivity {
         return ret;
     }
 
-    public static byte[] convertBitmapToByteArray(Bitmap bitmap)
-    {
-        int size     = bitmap.getRowBytes() * bitmap.getHeight();
+    public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
+        int size = bitmap.getRowBytes() * bitmap.getHeight();
         ByteBuffer byteBuffer = ByteBuffer.allocate(size);
         bitmap.copyPixelsFromBuffer(byteBuffer);
         byte[] bytes = new byte[size];
@@ -340,29 +391,16 @@ public class DetectVideoActivity extends AppCompatActivity {
     }
 
     private static File convertToFile(Bitmap bitmap, String name) {
-//        File filesDir = Environment.getExternalStorageDirectory();
-//        File imageFile = new File(filesDir + "/faceimage/", name + ".png");
-//
-//        OutputStream os;
-//        try {
-//            os = new FileOutputStream(imageFile);
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 85, os);
-//            os.flush();
-//            os.close();
-//
-//        } catch (Exception e) {
-//            //Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
-//        }
-//        return imageFile;
+
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fname = name + "_"+ timeStamp +".jpg";
+        String fname = name + "_" + timeStamp + ".jpg";
 
         File file = new File(myDir, fname);
-        if (file.exists()) file.delete ();
+        if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
@@ -374,12 +412,11 @@ public class DetectVideoActivity extends AppCompatActivity {
         return file;
     }
 
-    public void uploadImageToServer(Bitmap bitmap, String id, int count)
-    {
+    public void uploadImageToServer(Bitmap bitmap, String id, int count) {
         String fileName = id + "_" + count;
 
         RequestBody idBody = RequestBody.create(MediaType.parse("text/plain"), id);
-        RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), fileName);
+        //RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), fileName);
 
         //byte[] bytes = convertBitmapToByteArray(bitmap);
         File imageFile = convertToFile(bitmap, fileName);
@@ -390,26 +427,26 @@ public class DetectVideoActivity extends AppCompatActivity {
 
         ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
 
-        Call<ResponseBody> call = getResponse.uploadImage(idBody, nameBody, part);
+        Call<ResponseBody> call = getResponse.uploadImage(idBody, part);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        hidepDialog();
+
                         //Student serverResponse = response.body();
                         Toast.makeText(getApplicationContext(), "Upload " + temp + " success", Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
-                    hidepDialog();
+
                     Toast.makeText(getApplicationContext(), "problem uploading image " + temp, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                hidepDialog();
+
                 Toast.makeText(getApplicationContext(), "failure uploading image " + temp + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }

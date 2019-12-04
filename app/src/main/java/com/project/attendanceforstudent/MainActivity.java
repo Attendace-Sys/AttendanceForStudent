@@ -49,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String IMAGE_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "mp4";
 
-    EditText name, id;
+    EditText name, id, mail;
     Button btnSelect, btnRecordVideo;
 
     String selectedVideoPath;
     String fileManagerString;
     String studentName;
     String studentId;
+    String studentEmail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,19 +69,16 @@ public class MainActivity extends AppCompatActivity {
         btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
         name = (EditText) findViewById(R.id.student_name);
         id = (EditText) findViewById(R.id.student_id);
+        mail = (EditText)findViewById(R.id.email);
 
 //        btnSelect.setEnabled(false);
 //        btnRecordVideo.setEnabled(false);
 
-        if ((name.getText().toString() != null) && (id.getText().toString() != null)) {
-            studentName = name.getText().toString();
-            studentId = id.getText().toString();
-            btnSelect.setEnabled(true);
-            btnRecordVideo.setEnabled(true);
-        } else {
-            btnSelect.setEnabled(false);
-            btnRecordVideo.setEnabled(false);
-        }
+//        if ((name.getText().toString() != null) && (id.getText().toString() != null) && (mail.getText()).toString() != null) {
+//            studentName = name.getText().toString();
+//            studentId = id.getText().toString();
+//            studentEmail = mail.getText().toString();
+//        }
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,13 +107,13 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);  // Tested API 21 Android version 5.0.1(Samsung S4)
 //        }
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-//            videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-//        } else {
-//            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+        } else {
+            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+        }
 
-        videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 5);
+        videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 4);
         videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 
         if (videoIntent.resolveActivity(getPackageManager()) != null) {
@@ -153,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                     studentName = name.getText().toString();
                     studentId = id.getText().toString();
+                    studentEmail = mail.getText().toString();
 
                     Intent intent = new Intent(MainActivity.this,
                             DetectVideoActivity.class);
@@ -160,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("videoPath", selectedVideoPath);
                     intent.putExtra("studentName", studentName);
                     intent.putExtra("studentId", studentId);
+                    intent.putExtra("studentEmail", studentEmail);
                     startActivity(intent);
                 }
             } else {

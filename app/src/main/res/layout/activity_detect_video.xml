@@ -6,27 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".DetectVideoActivity">
 
-    <!--<LinearLayout-->
-    <!--    android:id="@+id/layout_id"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_above="@id/layout_button"-->
-    <!--    android:orientation="horizontal"-->
-    <!--    android:weightSum="2">-->
-    <!--    <EditText-->
-    <!--        android:id="@+id/student_id"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:background="#11000000"-->
-    <!--        android:drawableStart="@drawable/ic_action_user"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/id"-->
-    <!--        android:inputType="textPersonName"-->
-    <!--        android:textSize="22dp"-->
-    <!--        android:autofillHints="" />-->
-    <!--</LinearLayout>-->
-
     <LinearLayout
         android:id="@+id/layout_video"
         android:layout_width="match_parent"
@@ -35,64 +14,56 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/txt_desc"-->
-        <!--            android:layout_width="fill_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:gravity="center"-->
-        <!--            android:padding="10dp"-->
-        <!--            android:text="@string/preview_description"-->
-        <!--            android:textSize="15dp" />-->
-
-        <!--        &lt;!&ndash; To display picture taken &ndash;&gt;-->
-        <!--        <ImageView-->
-        <!--            android:id="@+id/imgPreview"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:visibility="gone"-->
-        <!--            android:contentDescription="@string/todo" />-->
-
-        <!-- To preview video recorded -->
         <VideoView
             android:id="@+id/videoPreview"
             android:layout_width="match_parent"
             android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
             android:layout_height="360dp"
             android:contentDescription="@string/todo" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_below="@id/layout_video"
-        android:layout_height="wrap_content">
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+        android:layout_above="@id/layout_button"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" />
+
+<!--        <ListView-->
+<!--            android:id="@+id/list_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent" >-->
+
+<!--        </ListView>-->
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_button"
-        android:layout_alignParentBottom="true"
-        android:weightSum="2"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <Button
-            android:id="@+id/btn_detect"
-            android:text="@string/btn_face_detect"
-            android:enabled="false"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:ignore="Suspicious0dp" />
-        <Button
             android:id="@+id/send_data"
-            android:text="@string/btn_send"
-            android:enabled="false"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/btn_send"
             tools:ignore="Suspicious0dp" />
     </LinearLayout>
 
