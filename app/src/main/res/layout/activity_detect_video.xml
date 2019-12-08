@@ -13,7 +13,7 @@
         android:background="#00BA9B"
         android:gravity="center"
         android:orientation="vertical"
-        android:translationZ="2dp"
+        android:translationZ="5dp"
         android:visibility="gone">
 
         <com.github.ybq.android.spinkit.SpinKitView
@@ -34,17 +34,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_weight="1"
+        android:background="#000F0C"
         android:orientation="vertical">
 
         <VideoView
             android:id="@+id/videoPreview"
             android:layout_width="match_parent"
-            android:layout_centerInParent="true"
+            android:layout_height="360dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_height="360dp"
             android:contentDescription="@string/todo" />
     </LinearLayout>
     <LinearLayout
@@ -59,9 +60,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:numColumns="4"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="5dp" >
-        </GridView>
+            android:verticalSpacing="0dp"></GridView>
     </LinearLayout>
 
     <LinearLayout
@@ -78,8 +80,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#E9009688"
             android:enabled="false"
+            android:shadowColor="#034231"
             android:text="@string/btn_send"
+            android:textColor="#F8F7F7"
+            android:textSize="24sp"
+            android:textStyle="bold"
             tools:ignore="Suspicious0dp" />
     </LinearLayout>
 

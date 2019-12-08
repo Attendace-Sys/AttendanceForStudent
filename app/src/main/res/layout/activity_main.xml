@@ -216,7 +216,9 @@
                     android:id="@+id/btnRecordVideo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
+                    android:background="#9C016951"
                     android:text="Take video" />
 
                 <Button
@@ -224,6 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="#C1014237"
                     android:text="Choose..." />
 
             </LinearLayout>

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -73,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         mail = (EditText)findViewById(R.id.email);
         loadingLinearLayout = (LinearLayout) findViewById(R.id.loadingLinearLayout);
 
+        loadingLinearLayout.setVisibility(View.GONE);
+
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,30 +84,18 @@ public class MainActivity extends AppCompatActivity {
         btnRecordVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingLinearLayout.setVisibility(View.VISIBLE);
+//                loadingLinearLayout.setVisibility(View.VISIBLE);
                 captureVideo();
             }
         });
     }
 
+
     private void captureVideo() {
         Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//        videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-//        videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 0);
-//        videoIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-//            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT);  // Tested on API 24 Android version 7.0(Samsung S6)
-//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT); // Tested on API 27 Android version 8.0(Nexus 6P)
-//            videoIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-//        } else {
-//            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);  // Tested API 21 Android version 5.0.1(Samsung S4)
-//        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-        } else {
-            videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
-        }
+        videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
+        videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
+        videoIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
 
         videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 3);
         videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
