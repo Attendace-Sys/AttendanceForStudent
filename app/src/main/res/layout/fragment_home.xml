@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/bg"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="16dp"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/menu" />
+
+
+                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_weight="1.6"
+                    android:gravity="center_horizontal"
+                    android:text="Your next schedule within"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+
+                    />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="16dp"
+                    android:layout_weight="0.2"
+                    android:gravity="right"
+                    android:src="@drawable/dots" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="hrs"
+                    android:textColor="#fff"
+                    android:textSize="14dp" />
+
+                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="58"
+                    android:textColor="#fff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="min"
+                    android:textColor="#fff"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:src="@drawable/comments" />
+
+                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:text="Team discussion @Office"
+                    android:textColor="#fff"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="185dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/roun_rect_white"
+                android:text="Gotcha!"
+                android:textColor="@color/colorGray"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/roun_rect_gray"
+                android:text="Alert Team"
+                android:textColor="@color/colorBackroundWhite"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/frameLayout"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="Upcoming Schedules"
+                android:textColor="@color/colorGray"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cardview_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorPrimary"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:id="@+id/text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Meeting with Adrian"
+                                android:textColor="@color/colorGray"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="20dp"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:layout_width="7dp"
+                                    android:layout_height="7dp"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/gree_circle"></View>
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="CONFIRMED"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/linear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text"
+                                android:layout_marginTop="3dp"
+                                android:orientation="horizontal">
+
+                                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Today : 5:40 pm"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginLeft="7dp"
+                                    android:src="@drawable/placeholder" />
+
+                                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text="Santa Monica"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linear"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="into"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="job"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="family"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="update"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cardview_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorOrange"></View>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp">
+
+                        <com.project.attendanceforstudent.customfonts.TextView_Lato
+                            android:id="@+id/text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="Data analysing with team"
+                            android:textColor="@color/colorGray"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp"
+                            android:gravity="center_vertical">
+
+                            <View
+                                android:layout_width="7dp"
+                                android:layout_height="7dp"
+                                android:layout_alignParentRight="true"
+                                android:background="@drawable/orange_circle"></View>
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="PENDING"
+                                android:textColor="@color/colorOrange"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text1"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Today : 7:40 pm"
+                                android:textColor="@color/colorLightGray"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_marginLeft="7dp"
+                                android:src="@drawable/placeholder" />
+
+                            <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:text="Google HQ"
+                                android:textColor="@color/colorLightGray"
+                                android:textSize="12dp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/linear1"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/roun_rect_lightgray"
+                                android:gravity="center"
+                                android:text="review"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/roun_rect_lightgray"
+                                android:gravity="center"
+                                android:text="workflow"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/roun_rect_lightgray"
+                                android:gravity="center"
+                                android:text="team build"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/roun_rect_lightgray"
+                                android:gravity="center"
+                                android:text="data design"
+                                android:textColor="@color/colorGray"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="15dp"
+                    card_view:cardCornerRadius="2dp"
+                    card_view:cardElevation="4dp"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/cardview_bg"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="100dp"
+                            android:background="@color/colorPrimary"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                android:id="@+id/text2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="Meeting with Gavin Balson"
+                                android:textColor="@color/colorGray"
+                                android:textSize="14dp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="20dp"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:layout_width="7dp"
+                                    android:layout_height="7dp"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/orange_circle"></View>
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="PENDING"
+                                    android:textColor="@color/colorOrange"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/linear2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text2"
+                                android:layout_marginTop="3dp"
+                                android:orientation="horizontal">
+
+                                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="Tommorow : 10:00 pm"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginLeft="7dp"
+                                    android:src="@drawable/placeholder" />
+
+                                <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="2dp"
+                                    android:text="Hooli Complex"
+                                    android:textColor="@color/colorLightGray"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/linear2"
+                                android:layout_marginTop="20dp"
+                                android:orientation="horizontal">
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="hooli news"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="pied pier"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="richard"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/roun_rect_lightgray"
+                                    android:gravity="center"
+                                    android:text="box!"
+                                    android:textColor="@color/colorGray"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

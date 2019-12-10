@@ -4,23 +4,27 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.media.MediaPlayer;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
@@ -28,16 +32,24 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 import com.project.attendanceforstudent.Networking.ApiConfig;
 import com.project.attendanceforstudent.Networking.AppConfig;
+import com.project.attendanceforstudent.Utils.Utils;
+
+import org.bytedeco.javacv.AndroidFrameConverter;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.FrameGrabber;
+import org.bytedeco.javacv.FrameRecorder;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -45,44 +57,29 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import wseemann.media.FFmpegMediaMetadataRetriever;
 
 public class DetectVideoActivity extends AppCompatActivity {
 
     private VideoView videoPreview;
-    private Button btnDetectFace;
     private Button btnSendData;
-    private GridView mGridView;
-    //private SpinKitView spinKitView;
-    private LinearLayout loadingLinearLayout;
+    private RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
 
     private String videoPath;
     private String studentName;
     private String studentId;
     private String studentEmail;
 
-    private MediaPlayer mediaPlayer = null;
-    private MediaController mediaController = null;
-    private int temp = 0;
+    private ArrayList<Bitmap> listFrames = new ArrayList<>();
+    private ArrayList<Bitmap> listBitmapFaces = new ArrayList<>();
 
-    private ArrayList<Bitmap> listBitmap;
-    private ArrayList<Bitmap> listFrame;
+    FaceImageDataAdapter adapter;
 
-    MyAdapter myAdapter;
-
-//    public ProgressDialog pDialog;
-
-    String cookie;
-
-    int max;
-
-    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detect_video);
-
         initView();
 
         if (videoPath != null) {
@@ -90,37 +87,20 @@ public class DetectVideoActivity extends AppCompatActivity {
             Uri uri = Uri.parse(videoPath);
             try {
                 videoPreview.setVisibility(View.VISIBLE);
-                //videoPreview.setVideoPath("android.resource://" + getPackageName() + "/" + R.raw.test);
                 videoPreview.setVideoURI(uri);
-                MediaController mediaController = new MediaController(this);
-                videoPreview.setMediaController(mediaController);
-////                mediaController.setAnchorView(videoPreview);
-//                // Hide the controller
-//                mediaController.setVisibility(View.GONE);
-//                // Show the controller
-//                mediaController.setVisibility(View.VISIBLE);
-
-                videoPreview.requestFocus();
-
-                videoPreview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    // Close the progress bar and play the video
-                    public void onPrepared(MediaPlayer mp) {
-                        videoPreview.start();
-                    }
-                });
+                videoPreview.seekTo(100);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             callExtractFaceFromVideo();
-
             btnSendData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    loadingLinearLayout.setVisibility(View.VISIBLE);
+                    String message = "Đang tải dữ liệu lên server.\n Vui lòng chờ...";
+                    Utils.showLoadingIndicator(DetectVideoActivity.this, message);
                     sendDataToServer();
-
                 }
             });
         }
@@ -128,10 +108,19 @@ public class DetectVideoActivity extends AppCompatActivity {
 
     private void initView() {
         videoPreview = (VideoView) findViewById(R.id.videoPreview);
-        //spinKitView = (SpinKitView) findViewById(R.id.spin_kit);
         btnSendData = (Button) findViewById(R.id.send_data);
-        mGridView = (GridView) findViewById(R.id.gridView);
-        loadingLinearLayout = (LinearLayout) findViewById(R.id.loadingLinearLayout);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        gridLayoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        int spanCount = 3; // 3 columns
+        int spacing = 20; // 50px
+        boolean includeEdge = true;
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+
+        adapter = new FaceImageDataAdapter(getApplicationContext(), listBitmapFaces);
+        recyclerView.setAdapter(adapter);
 
         Bundle bundle = getIntent().getExtras();
         videoPath = bundle.getString("videoPath");
@@ -141,17 +130,11 @@ public class DetectVideoActivity extends AppCompatActivity {
     }
 
     private void callExtractFaceFromVideo() {
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadingLinearLayout.setVisibility(View.VISIBLE);
-            }
-        }, 1000);
 
-        listBitmap = new ArrayList<Bitmap>();
-        ExtractImageTask myAsync = new ExtractImageTask();
-        myAsync.execute(videoPath);
+        String message = "  Đang trích xuất \n  dữ liệu khuôn mặt từ video. \n  Vui lòng chờ...";
+        Utils.showLoadingIndicator(DetectVideoActivity.this, message);
+        startVideoParsing(videoPath);
+
     }
 
     private void sendDataToServer() {
@@ -159,7 +142,7 @@ public class DetectVideoActivity extends AppCompatActivity {
 
         List<MultipartBody.Part> imgParts = new ArrayList<>();
 
-        for (Bitmap bitmap : listBitmap) {
+        for (Bitmap bitmap : listBitmapFaces) {
             String fileName = studentId;
             File file = convertToFile(bitmap, fileName);
             RequestBody requestImg = RequestBody.create(MediaType.parse("image/*"), file);
@@ -187,22 +170,21 @@ public class DetectVideoActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
 
-                        loadingLinearLayout.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "Success upload!", Toast.LENGTH_SHORT).show();
+                        Utils.hideLoadingIndicator();
+                        Toast.makeText(getApplicationContext(), "Gửi thành công!", Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
 
-                    loadingLinearLayout.setVisibility(View.GONE);
-
-                    Toast.makeText(getApplicationContext(), "Problem uploading video", Toast.LENGTH_SHORT).show();
+                    Utils.hideLoadingIndicator();
+                    Toast.makeText(getApplicationContext(), "Xảy ra vấn đề khi gửi dữ liệu. \nVui lòng thử lại.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                loadingLinearLayout.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Failure uploading video " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Utils.hideLoadingIndicator();
+                Toast.makeText(getApplicationContext(), "Gửi thất bại. \nVui lòng thử lại. " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -230,137 +212,210 @@ public class DetectVideoActivity extends AppCompatActivity {
         return file;
     }
 
-    public class ExtractImageTask extends AsyncTask<String, Integer, ArrayList<Bitmap>> {
+    public Bitmap rotateBitmap(Bitmap bmpOriginal, String rotation) {
 
-        private ArrayList<Bitmap> mlistFrame;
+        if (bmpOriginal == null) {
+            return null;
+        }
+        int mBitW = Integer.parseInt(String.valueOf(bmpOriginal.getWidth()));
+        int mBitH = Integer.parseInt(String.valueOf(bmpOriginal.getHeight()));
 
-        private int mSize;
-        private int mTemp;
-
-        @Override
-        protected void onPreExecute() {
-
+        Matrix matrix = new Matrix();
+        switch (rotation) {
+            case "90":
+                matrix.postRotate(90);
+                break;
+            case "270":
+                matrix.postRotate(-90);
+                break;
+            default:
+                return bmpOriginal;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bmpOriginal, 0, 0, mBitW, mBitH, matrix, true);
+            return bmRotated;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
         }
 
-        @Override
-        protected ArrayList<Bitmap> doInBackground(String... strings) {
-            mlistFrame = new ArrayList<Bitmap>();
+    }
 
-            FFmpegMediaMetadataRetriever mmr = new FFmpegMediaMetadataRetriever();
-            mmr.setDataSource(strings[0]);
 
-            String METADATA_KEY_DURATION = mmr
-                    .extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION);
+    private void startVideoParsing(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    doConvert(path);
+                } catch (FrameGrabber.Exception e) {
+                    e.printStackTrace();
+                } catch (FrameRecorder.Exception e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
-            String rotation = mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
-            // 270 front camera
-            // 90 back camera
 
-            Bitmap bmpOriginal = null;
+    //extract images using JavaCV
+    private void doConvert(String path) throws IOException {
 
-            mSize = (int) (Long.parseLong(METADATA_KEY_DURATION) * 4 / 1000);
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(path);
+        String rotation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
+//        Log.d("Metadata", "doConvert: " + rotation);
 
-            for (int index = 0; index < mSize; index++) {
-                int time = index * 1000 / 4;
-                bmpOriginal = mmr.getFrameAtTime(time * 1000, FFmpegMediaMetadataRetriever.OPTION_CLOSEST);
+        //extract frames
+        extractFrames(path, rotation);
 
-                mlistFrame.add(rotateBitmap(bmpOriginal, rotation));
+        //extract faces in each frames
+        extractFaces();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Utils.hideLoadingIndicator();
+            }
+        });
+    }
+
+    private void extractFrames(String path, String rotation) throws FrameGrabber.Exception {
+        final int NUM_FRAME_EXTRACT_PER_SECOND = 3;
+        final float ONE_SECOND_IN_MICRO_SECONDS = 1000000.0f;
+        float frameInterval = ONE_SECOND_IN_MICRO_SECONDS / NUM_FRAME_EXTRACT_PER_SECOND - ONE_SECOND_IN_MICRO_SECONDS / 10.0f;
+        final int NUM_FRAMES = NUM_FRAME_EXTRACT_PER_SECOND * 3;
+
+        int frameCount = 0;
+
+        FFmpegFrameGrabber videoGrabber = new FFmpegFrameGrabber(path);
+        Map<String, String> metaData = videoGrabber.getVideoMetadata();
+
+        Frame frame;
+
+        videoGrabber.start();
+        AndroidFrameConverter bitmapConverter = new AndroidFrameConverter();
+
+        //calculate in microsecond (10^-6 second)
+        long startTime = 0;
+
+        //extract frames in video
+        while (true) {
+            frame = videoGrabber.grabFrame();
+
+            if (frame == null) {
+//                Log.e("extractFrame", "No more frame");
+
+                break;
+            }
+            if (frame.image == null) {
+                continue;
             }
 
-            mmr.release();
 
-            return mlistFrame;
-        }
+            //sometime timestamp return 0
+            if (frame.timestamp <= 1) continue;
+//            Log.e("timestamp", "" + frame.timestamp);
 
-        @Override
-        protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
+            long endTime = frame.timestamp;
+            long delta = frame.timestamp - startTime;
 
-            mTemp = 0;
+            //Only process frame after time interval
+            if (delta > frameInterval) {
 
-            for (int index = 0; index < bitmaps.size(); index++) {
+                startTime = endTime;
 
-                final FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmaps.get(index));
-                FirebaseVisionFaceDetectorOptions options = new FirebaseVisionFaceDetectorOptions.Builder()
-                        .build();
-                FirebaseVisionFaceDetector detector = FirebaseVision.getInstance()
-                        .getVisionFaceDetector(options);
+                Bitmap currentImage = bitmapConverter.convert(frame);
 
-                Task<List<FirebaseVisionFace>> listTask = detector.detectInImage(image)
-                        .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionFace>>() {
-                            @Override
-                            public void onSuccess(List<FirebaseVisionFace> faces) {
-                                processFaceResult(faces, image);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-            }
-        }
+                //need to clone, although get the same image
+                Bitmap extractedFrameBitmap = currentImage.copy(currentImage.getConfig(), true);
 
-        private void processFaceResult(List<FirebaseVisionFace> faces, FirebaseVisionImage image) {
-            for (FirebaseVisionFace face : faces) {
-                Rect bounds = face.getBoundingBox();
+                listFrames.add(rotateBitmap(extractedFrameBitmap, rotation));
 
-                Bitmap bitmap = cropBitmap(image.getBitmap(), bounds);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
 
-                listBitmap.add(bitmap);
-
-                mTemp++;
-            }
-
-            if (mTemp == mSize) {
-                btnSendData.setEnabled(true);
-                myAdapter = new MyAdapter(DetectVideoActivity.this, listBitmap);
-
-                mGridView.setAdapter(myAdapter);
-
-                loadingLinearLayout.setVisibility(View.GONE);
-            }
-        }
-
-        public Bitmap rotateBitmap(Bitmap bmpOriginal, String rotation) {
-
-            if (bmpOriginal == null) {
-                return null;
-            }
-            int mBitW = Integer.parseInt(String.valueOf(bmpOriginal.getWidth()));
-            int mBitH = Integer.parseInt(String.valueOf(bmpOriginal.getHeight()));
-
-            Matrix matrix = new Matrix();
-            switch (rotation) {
-                case "90":
-                    matrix.postRotate(90);
+                frameCount++;
+                if (frameCount >= NUM_FRAMES) {
+//                    Log.d("Extract frames", "Finish");
                     break;
-                case "270":
-                    matrix.postRotate(-90);
-                    break;
-                default:
-                    return bmpOriginal;
+                }
             }
-            try {
-                Bitmap bmRotated = Bitmap.createBitmap(bmpOriginal, 0, 0, mBitW, mBitH, matrix, true);
-                return bmRotated;
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-
-        public Bitmap cropBitmap(Bitmap bitmap, Rect rect) {
-            int w = rect.right - rect.left;
-            int h = rect.bottom - rect.top;
-            Bitmap ret = Bitmap.createBitmap(w, h, bitmap.getConfig());
-            Canvas canvas = new Canvas(ret);
-            canvas.drawBitmap(bitmap, -rect.left, -rect.top, null);
-            return ret;
         }
     }
 
+    private void extractFaces() {
+        for (int index = 0; index < listFrames.size(); index++) {
+
+            Bitmap frame = listFrames.get(index);
+            final FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(frame);
+
+            FirebaseVisionFaceDetectorOptions options = new FirebaseVisionFaceDetectorOptions.Builder()
+                    .build();
+            FirebaseVisionFaceDetector detector = FirebaseVision.getInstance()
+                    .getVisionFaceDetector(options);
+
+
+            Task<List<FirebaseVisionFace>> detectionTask = detector.detectInImage(firebaseVisionImage);
+
+            try {
+                // Block on a task and get the result synchronously. This is generally done
+                // when executing a task inside a separately managed background thread. Doing this
+                // on the main (UI) thread can cause your application to become unresponsive.
+                List<FirebaseVisionFace> facesInfo= Tasks.await(detectionTask);
+                List<Bitmap> facesInFrame = processFaceResult(facesInfo, firebaseVisionImage, true);
+                listBitmapFaces.addAll(facesInFrame);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+            } catch (ExecutionException e) {
+                // The Task failed, this is the same exception you'd get in a non-blocking
+                // failure handler.
+                // ...
+            } catch (InterruptedException e) {
+                // An interrupt occurred while waiting for the task to complete.
+                // ...
+            }
+        }
+    }
+
+
+    private List<Bitmap> processFaceResult(List<FirebaseVisionFace> faces, FirebaseVisionImage image, boolean keepOriginal) {
+
+        final int FACE_IMG_WIDTH = 200;
+        final int FACE_IMG_HEIGHT = 200;
+
+        List<Bitmap> facesInFrame = new ArrayList<>();
+        for (FirebaseVisionFace face : faces) {
+            Rect bounds = face.getBoundingBox();
+            Bitmap bitmap = cropBitmap(image.getBitmap(), bounds);
+            if(keepOriginal == false) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, FACE_IMG_WIDTH, FACE_IMG_HEIGHT, true);
+            }
+            facesInFrame.add(bitmap);
+
+        }
+        return facesInFrame;
+    }
+
+    public Bitmap cropBitmap(Bitmap bitmap, Rect rect) {
+        int w = rect.right - rect.left;
+        int h = rect.bottom - rect.top;
+        Bitmap ret = Bitmap.createBitmap(w, h, bitmap.getConfig());
+        Canvas canvas = new Canvas(ret);
+        canvas.drawBitmap(bitmap, -rect.left, -rect.top, null);
+        return ret;
+    }
 }

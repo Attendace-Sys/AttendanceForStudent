@@ -4,90 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DetectVideoActivity">
 
     <LinearLayout
-        android:id="@+id/loadingLinearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#00BA9B"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:translationZ="5dp"
-        android:visibility="gone">
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin_kit"
-            style="@style/SpinKitView.Large.CubeGrid"
-            android:layout_width="135dp"
-            android:layout_height="135dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            app:SpinKit_Color="#FFFFFF" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_weight="1"
-        android:background="#000F0C"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/send_data">
         <VideoView
             android:id="@+id/videoPreview"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:contentDescription="@string/todo" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_below="@id/layout_video"
-        android:layout_above="@id/layout_button"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/gridView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:numColumns="4"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="0dp"></GridView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <Button
-            android:id="@+id/send_data"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#E9009688"
-            android:enabled="false"
-            android:shadowColor="#034231"
-            android:text="@string/btn_send"
-            android:textColor="#F8F7F7"
-            android:textSize="24sp"
+            android:text="Vui lòng xoá ảnh (dấu X) khuôn mặt sai \n hoặc bị mờ trước khi gửi"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="italic"
+            ></TextView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Danh sách khuôn mặt \n phát hiện được từ video"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textAllCaps="true"
             android:textStyle="bold"
-            tools:ignore="Suspicious0dp" />
+            ></TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@android:color/darker_gray"
+            android:scrollbars="vertical" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/send_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E9009688"
+        android:shadowColor="#034231"
+        android:text="Gửi"
+        android:textColor="#F8F7F7"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:ignore="Suspicious0dp"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

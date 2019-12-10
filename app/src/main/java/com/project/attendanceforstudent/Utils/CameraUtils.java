@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.project.attendanceforstudent.BuildConfig;
+import com.project.attendanceforstudent.CreateProfileActivity;
 import com.project.attendanceforstudent.MainActivity;
 
 import java.io.File;
@@ -98,13 +99,13 @@ public class CameraUtils {
         File mediaStorageDir = new File(
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                MainActivity.GALLERY_DIRECTORY_NAME);
+                CreateProfileActivity.GALLERY_DIRECTORY_NAME);
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.e(MainActivity.GALLERY_DIRECTORY_NAME, "Oops! Failed create "
-                        + MainActivity.GALLERY_DIRECTORY_NAME + " directory");
+                Log.e(CreateProfileActivity.GALLERY_DIRECTORY_NAME, "Oops! Failed create "
+                        + CreateProfileActivity.GALLERY_DIRECTORY_NAME + " directory");
                 return null;
             }
         }
@@ -114,12 +115,12 @@ public class CameraUtils {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         File mediaFile;
-        if (type == MainActivity.MEDIA_TYPE_IMAGE) {
+        if (type == CreateProfileActivity.MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + "." + MainActivity.IMAGE_EXTENSION);
-        } else if (type == MainActivity.MEDIA_TYPE_VIDEO) {
+                    + "IMG_" + timeStamp + "." + CreateProfileActivity.IMAGE_EXTENSION);
+        } else if (type == CreateProfileActivity.MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "VID_" + timeStamp + "." + MainActivity.VIDEO_EXTENSION);
+                    + "VID_" + timeStamp + "." + CreateProfileActivity.VIDEO_EXTENSION);
         } else {
             return null;
         }

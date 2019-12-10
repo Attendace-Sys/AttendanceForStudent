@@ -1,250 +1,58 @@
 package com.project.attendanceforstudent;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import android.view.MenuItem;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-public class MainActivity extends AppCompatActivity {
 
-    // Activity request codes
-    private static final int CAPTURE_IMAGE_REQUEST_CODE = 100;
-    private static final int CAPTURE_VIDEO_REQUEST_CODE = 200;
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private static final int SELECT_IMAGE_REQUEST_CODE = 300;
-    private static final int SELECT_VIDEO_REQUEST_CODE = 400;
+    private static final String TAG = "MainActivity";
 
-    private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7777;
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-
-    // Bitmap sampling size
-    public static final int BITMAP_SAMPLE_SIZE = 8;
-
-    // Gallery directory name to store the images or videos
-    public static final String GALLERY_DIRECTORY_NAME = "Hello Camera";
-
-    // Image and Video file extensions
-    public static final String IMAGE_EXTENSION = "jpg";
-    public static final String VIDEO_EXTENSION = "mp4";
-
-    EditText name, id, mail;
-    Button btnSelect, btnRecordVideo;
-    private LinearLayout loadingLinearLayout;
-
-    String selectedVideoPath;
-    String fileManagerString;
-    String studentName;
-    String studentId;
-    String studentEmail;
+    BottomNavigationView bottomNavigationView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkAndRequestPermissions();
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        btnSelect = (Button) findViewById(R.id.btnSelect);
-        btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
-        name = (EditText) findViewById(R.id.student_name);
-        id = (EditText) findViewById(R.id.student_id);
-        mail = (EditText)findViewById(R.id.email);
-        loadingLinearLayout = (LinearLayout) findViewById(R.id.loadingLinearLayout);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        loadingLinearLayout.setVisibility(View.GONE);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //loadingLinearLayout.setVisibility(View.VISIBLE);
-                selectVideoFromGallery();
-            }
-        });
-        btnRecordVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                loadingLinearLayout.setVisibility(View.VISIBLE);
-                captureVideo();
-            }
-        });
     }
 
+    HomeFragment homeFragment = new HomeFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    NotificationFragment notificationFragment = new NotificationFragment();
 
-    private void captureVideo() {
-        Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        videoIntent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1);
-        videoIntent.putExtra("android.intent.extras.CAMERA_FACING", 1);
-        videoIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true);
-
-        videoIntent.putExtra(android.provider.MediaStore.EXTRA_DURATION_LIMIT, 3);
-        videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-
-        if (videoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(videoIntent, CAPTURE_VIDEO_REQUEST_CODE);
-        }
-    }
-
-    public void selectVideoFromGallery() {
-        Intent intent;
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-            intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-
-        } else {
-            intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.INTERNAL_CONTENT_URI);
-        }
-        intent.setType("video/*");
-//        intent.setAction(Intent.ACTION_PICK);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, SELECT_VIDEO_REQUEST_CODE);
-    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAPTURE_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data.getData() != null) {
-//                String selectedVideoPath = getPath(data.getData(), activity);
-                Uri selectedImageUri = data.getData();
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                // OI FILE Manager
-                //fileManagerString = selectedImageUri.getPath();
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, homeFragment).commit();
+                return true;
 
-                // MEDIA GALLERY
-                selectedVideoPath = getPath(selectedImageUri);
-                if (selectedVideoPath != null) {
+            case R.id.navigation_notification:
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, profileFragment).commit();
+                return true;
 
-                    studentName = name.getText().toString();
-                    studentId = id.getText().toString();
-                    studentEmail = mail.getText().toString();
+            case R.id.navigation_profile:
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, notificationFragment).commit();
+                return true;
 
-                    Intent intent = new Intent(MainActivity.this,
-                            DetectVideoActivity.class);
 
-                    intent.putExtra("videoPath", selectedVideoPath);
-                    intent.putExtra("studentName", studentName);
-                    intent.putExtra("studentId", studentId);
-                    intent.putExtra("studentEmail", studentEmail);
-                    startActivity(intent);
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Failed to take video", Toast.LENGTH_LONG).show();
-            }
-        }else if (requestCode == SELECT_VIDEO_REQUEST_CODE && resultCode == RESULT_OK)
-        {
-            loadingLinearLayout.setVisibility(View.VISIBLE);
-            if (data.getData() != null) {
-//                String selectedVideoPath = getPath(data.getData(), activity);
-                Uri selectedImageUri = data.getData();
 
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-                cursor.moveToFirst();
-                //Get the column index of MediaStore.Images.Media.DATA
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                // MEDIA GALLERY
-                selectedVideoPath = cursor.getString(columnIndex);
-                if (selectedVideoPath != null) {
-
-                    studentName = name.getText().toString();
-                    studentId = id.getText().toString();
-                    studentEmail = mail.getText().toString();
-
-                    Intent intent = new Intent(MainActivity.this,
-                            DetectVideoActivity.class);
-
-                    intent.putExtra("videoPath", selectedVideoPath);
-                    intent.putExtra("studentName", studentName);
-                    intent.putExtra("studentId", studentId);
-                    intent.putExtra("studentEmail", studentEmail);
-                    startActivity(intent);
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), "Failed to select video", Toast.LENGTH_LONG).show();
-            }
         }
+
+        return false;
     }
-
-    public String getPath(Uri uri) {
-        String[] projection = {MediaStore.Video.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            cursor.moveToFirst();
-
-            int column_index = cursor
-                    .getColumnIndexOrThrow(projection[0]);
-//            int column_index = cursor
-//                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-//            cursor.moveToFirst();
-
-            return cursor.getString(column_index);
-        } else
-            return null;
-    }
-
-    private boolean checkAndRequestPermissions() {
-        int camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        int writepermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int readpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        List<String> listPermissionsNeeded = new ArrayList<>();
-
-        if (camerapermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.CAMERA);
-        }
-        if (writepermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (readpermission != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        //cameraView.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_ID_MULTIPLE_PERMISSIONS) {
-            Map<String, Integer> perms = new HashMap<>();
-            // Initialize the map with both permissions
-            perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-            perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-            perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-            // Fill with actual results from user
-            if (grantResults.length > 0) {
-                for (int i = 0; i < permissions.length; i++)
-                    perms.put(permissions[i], grantResults[i]);
-            }
-        }
-    }
-
 }
+

@@ -1,301 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_alignParentTop="true">
+    tools:context=".MainActivity">
 
-
-    <LinearLayout
-        android:id="@+id/natural"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:background="@drawable/sea"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/loadingLinearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#00BA9B"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:translationZ="2dp"
-        android:visibility="gone">
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/spin_kit"
-            style="@style/SpinKitView.Large.CubeGrid"
-            android:layout_width="135dp"
-            android:layout_height="135dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            app:SpinKit_Color="#FFFFFF" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/imageLinear"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemIconTint="@drawable/item_selected"
+        app:itemTextColor="@drawable/item_selected"
+        />
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="35dp"
-            android:src="@drawable/logo" />
-
-
-        <com.project.attendanceforstudent.customfonts.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:letterSpacing="0.025"
-            android:text="Welcome!"
-            android:textColor="@color/weekcolor"
-            android:textSize="20dp" />
-
-    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/natural"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/studentIdTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Student Id"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/student_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="right"
-                android:hint="15520001"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/fullNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Full name"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/student_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="#0000"
-                android:gravity="right"
-                android:hint="Nguyen Van A"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/emailTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Email"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="#0000"
-                android:gravity="right"
-                android:hint="15520001@gm.uit.edu.vn"
-                android:inputType="text"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="102dp"
-            android:orientation="horizontal">
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/faceVideoTxt"
-                android:layout_width="206dp"
-                android:layout_height="wrap_content"
-                android:background="#0000"
-                android:gravity="left"
-                android:maxLength="12"
-                android:padding="16dp"
-                android:text="Face video"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnRecordVideo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="#9C016951"
-                    android:text="Take video" />
-
-                <Button
-                    android:id="@+id/btnSelect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#C1014237"
-                    android:text="Choose..." />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-
-    </LinearLayout>
-
-    <!--        <EditText-->
-<!--            android:id="@+id/student_name"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_above="@+id/student_id"-->
-<!--            android:layout_marginBottom="@dimen/activity_margin"-->
-<!--            android:autofillHints=""-->
-<!--            android:background="#11000000"-->
-<!--            android:drawableStart="@drawable/ic_action_name"-->
-<!--            android:ems="10"-->
-<!--            android:hint="@string/name"-->
-<!--            android:inputType="text"-->
-<!--            android:textSize="23dp" />-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/student_id"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_above="@+id/layout_button"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_marginBottom="@dimen/activity_margin"-->
-<!--            android:autofillHints=""-->
-<!--            android:background="#11000000"-->
-<!--            android:drawableStart="@drawable/ic_action_studentid"-->
-<!--            android:ems="10"-->
-<!--            android:hint="@string/id"-->
-<!--            android:inputType="text"-->
-<!--            android:textSize="23dp" />-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/layout_button"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="2">-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btnSelect"-->
-<!--            android:text="@string/btn_select"-->
-<!--            android:enabled="false"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:ignore="Suspicious0dp" />-->
-<!--        <Button-->
-<!--            android:id="@+id/btnRecordVideo"-->
-<!--            android:text="@string/btn_record_video"-->
-<!--            android:enabled="false"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:ignore="Suspicious0dp" />-->
-
-<!--    </LinearLayout>-->
-
-</RelativeLayout>
