@@ -146,9 +146,9 @@ public class DetectVideoActivity extends AppCompatActivity {
 
         List<MultipartBody.Part> imgParts = new ArrayList<>();
 
-        for (Bitmap bitmap : listBitmapFaces) {
-            String fileName = studentId;
-            File file = convertToFile(bitmap, fileName);
+        for (int index = 0; index < listBitmapFaces.size(); index++) {
+            String fileName = studentId + "_" + index ;
+            File file = convertToFile(listBitmapFaces.get(index), fileName);
             RequestBody requestImg = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part part = MultipartBody.Part.createFormData("files", file.getName(), requestImg);
 
