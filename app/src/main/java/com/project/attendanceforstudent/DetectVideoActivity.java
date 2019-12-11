@@ -98,9 +98,13 @@ public class DetectVideoActivity extends AppCompatActivity {
             btnSendData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String message = "Đang tải dữ liệu lên server.\n Vui lòng chờ...";
-                    Utils.showLoadingIndicator(DetectVideoActivity.this, message);
-                    sendDataToServer();
+                    if (listBitmapFaces.size() > 0) {
+                        String message = "Đang tải dữ liệu lên server.\n Vui lòng chờ...";
+                        Utils.showLoadingIndicator(DetectVideoActivity.this, message);
+                        sendDataToServer();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Không có khuôn mặt nào.\nVui lòng thực hiện lại.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -370,7 +374,7 @@ public class DetectVideoActivity extends AppCompatActivity {
                 // when executing a task inside a separately managed background thread. Doing this
                 // on the main (UI) thread can cause your application to become unresponsive.
                 List<FirebaseVisionFace> facesInfo= Tasks.await(detectionTask);
-                List<Bitmap> facesInFrame = processFaceResult(facesInfo, firebaseVisionImage, true);
+                List<Bitmap> facesInFrame = processFaceResult(facesInfo, firebaseVisionImage, false);
                 listBitmapFaces.addAll(facesInFrame);
 
                 runOnUiThread(new Runnable() {
@@ -394,8 +398,9 @@ public class DetectVideoActivity extends AppCompatActivity {
 
     private List<Bitmap> processFaceResult(List<FirebaseVisionFace> faces, FirebaseVisionImage image, boolean keepOriginal) {
 
-        final int FACE_IMG_WIDTH = 200;
-        final int FACE_IMG_HEIGHT = 200;
+        //input size for Facenet
+        final int FACE_IMG_WIDTH = 160;
+        final int FACE_IMG_HEIGHT = 160;
 
         List<Bitmap> facesInFrame = new ArrayList<>();
         for (FirebaseVisionFace face : faces) {

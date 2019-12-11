@@ -53,7 +53,7 @@ dependencies {
     // JSON Parsing
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
-    
+
     //UI
     //Loading
     implementation 'com.kaopiz:kprogresshud:1.2.0'
@@ -64,9 +64,9 @@ dependencies {
     // implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.14'
     implementation group: 'org.bytedeco', name: 'javacv', version: '1.4.4'
 
-    implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-arm'
-    implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-arm64'
-    implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-x86'
+    //implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-arm'
+   // implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-arm64'
+    //implementation 'org.bytedeco.javacpp-presets:opencv:4.0.1-1.4.4:android-x86'
 
     implementation 'org.bytedeco.javacpp-presets:ffmpeg:4.1-1.4.4:android-arm'
     implementation 'org.bytedeco.javacpp-presets:ffmpeg:4.1-1.4.4:android-x86'

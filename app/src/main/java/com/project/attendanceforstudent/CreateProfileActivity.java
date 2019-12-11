@@ -139,9 +139,9 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Để có dữ liệu tốt nhất, lưu ý:");
-        builder.setMessage("1. Đảm bảo camera nhìn rõ mặt \n" +
-                "3. Chuyển thành camera trước nếu camera trước chưa bật \n"+
-                "2. Quay mặt chính diện, đánh mặt sang trái, phải, lên trên, xuống dưới một góc 45 độ.");
+        builder.setMessage( "1. Chuyển thành camera trước nếu camera trước chưa bật \n"
+                +"2. Đảm bảo camera nhìn rõ mặt \n" +
+                "3. Quay mặt chính diện, đánh mặt sang trái, phải, lên trên, xuống dưới một góc 45 độ.");
 
         if(isFirstTime) {
 
