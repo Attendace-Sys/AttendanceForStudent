@@ -32,8 +32,6 @@
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />
 
-        <activity android:name=".MainActivity">
-        </activity>
         <activity android:name=".CreateProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

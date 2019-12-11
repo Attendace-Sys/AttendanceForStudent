@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.project.attendanceforstudent.MainActivity;
 
 import java.io.ByteArrayOutputStream;
 
