@@ -218,11 +218,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="center"
-                    android:text="@string/guide_face_collection"
                     android:autoLink="web"
                     android:clickable="true"
-                    />
+                    android:text="@string/guide_face_collection"
+                    android:textAlignment="center"
+                    android:textColor="#F44336" />
 
                 <Button
                     android:id="@+id/btnRecordVideo"

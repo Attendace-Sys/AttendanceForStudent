@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimary">#E9009688</color>
+<!--    <color name="colorPrimary">#344955</color>-->
+    <color name="colorPrimaryDark">#17262A</color>
+    <color name="colorAccent">#FAAB1A</color>
     <color name="dpnamecolor">#fff</color>
     <color name="weekcolor">#fff</color>
     <color name="agendacolor">#8E9097</color>
@@ -14,4 +16,13 @@
     <color name="colorLightGray">#a6abae</color>
     <color name="colorGray">#495C67</color>
     <color name="colorBackroundWhite">#f0f2ea</color>
+
+    <color name="buttonBg">#E9009688</color>
+
+    <color name="colorPrimary1">#304049</color>
+    <color name="colorPrimary2">#4A6572</color>
+
+    <color name="textColor">#B4C1CC</color>
+
+
 </resources>
