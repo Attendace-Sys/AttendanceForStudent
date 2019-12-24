@@ -1,14 +1,14 @@
-package com.project.attendanceforstudent;
+package com.project.attendanceforstudent.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.project.attendanceforstudent.Model.Course;
-import com.project.attendanceforstudent.Model.Notification;
+import com.project.attendanceforstudent.Interface.CardClickListener;
+import com.project.attendanceforstudent.Model.NotificationCard;
+import com.project.attendanceforstudent.R;
 
 import java.util.ArrayList;
 
@@ -16,10 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationCardDataAdapter extends RecyclerView.Adapter<NotificationCardDataAdapter.ViewHolder> {
-    private ArrayList<Notification> notifications;
+    private ArrayList<NotificationCard> notifications;
     private Context context;
 
-    public NotificationCardDataAdapter(Context context, ArrayList<Notification> list) {
+    public NotificationCardDataAdapter(Context context, ArrayList<NotificationCard> list) {
         this.context = context;
         this.notifications = list;
     }

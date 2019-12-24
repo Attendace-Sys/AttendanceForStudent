@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.project.attendanceforstudent.Model.Course;
-import com.project.attendanceforstudent.Model.Notification;
+import com.project.attendanceforstudent.Adapter.NotificationCardDataAdapter;
+import com.project.attendanceforstudent.Model.NotificationCard;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationFragment extends Fragment {
 
-    ArrayList<Notification> notificationList;
+    ArrayList<NotificationCard> notificationList;
     RecyclerView notiRecyclerView;
 
     String titles[] = {"Chuyên đề J2EE - SE324.J23","Ứng dụng di động - SE102.K12","Toán cao cấp 1 - MA001.J21"};
@@ -33,7 +33,7 @@ public class NotificationFragment extends Fragment {
 
         notiRecyclerView = (RecyclerView) view.findViewById(R.id.noti_recyclerView);
 
-        notificationList =  new ArrayList<Notification>();
+        notificationList =  new ArrayList<NotificationCard>();
 
         addNotifications();
         // Inflate the layout for this fragment
@@ -48,7 +48,7 @@ public class NotificationFragment extends Fragment {
 
         for (int i = 0; i < titles.length; i++)
         {
-            Notification noti = new Notification();
+            NotificationCard noti = new NotificationCard();
             noti.setTitle(titles[i]);
             noti.setMessage(messgages[i]);
             noti.setIs_absent(absent[i]);

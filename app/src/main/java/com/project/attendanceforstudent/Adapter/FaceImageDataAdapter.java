@@ -1,4 +1,4 @@
-package com.project.attendanceforstudent;
+package com.project.attendanceforstudent.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.project.attendanceforstudent.R;
 
 import androidx.recyclerview.widget.RecyclerView;
 

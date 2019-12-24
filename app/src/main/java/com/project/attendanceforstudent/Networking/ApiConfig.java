@@ -13,14 +13,15 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 
 public interface ApiConfig {
-//    @Headers("Content-Type: multipart/form-data")
     @Multipart
     @POST("students/serializer/students//")
     Call<ResponseBody> upload(
@@ -38,18 +39,26 @@ public interface ApiConfig {
             @Part MultipartBody.Part image_data
     );
 
-//    @GET("students")
-//    Call<ResponseBody> getCookie(
-//
-//    );
-
     @Multipart
-    @POST("students/")
+    @POST("students/new")
     Call<ResponseBody> uploadStudentProfile(
             @Part("student_code") RequestBody student_code,
-            @Part("full_name") RequestBody student_name,
+            @Part("first_name") RequestBody student_name,
             @Part("email") RequestBody student_email,
             @Part MultipartBody.Part student_video_data,
             @Part List<MultipartBody.Part> files
     );
+
+    @Multipart
+    @POST("api/v1/auth/login/")
+    Call<User> login(@Part("username") RequestBody username,
+                     @Part("password") RequestBody password);
+
+    @POST("api/v1/auth/logout/")
+    Call<ResponseBody> logout();
+
+    @GET("api/v1/courses/student/{studentid}")
+    Call<Courses> getListCourse(@Header("Authorization") String authorization,
+                                @Path("studentid") String id);
+
 }

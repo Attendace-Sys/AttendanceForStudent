@@ -14,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.project.attendanceforstudent.Networking.ApiConfig;
+import com.project.attendanceforstudent.Networking.AppConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +31,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -37,12 +45,13 @@ public class ProfileFragment extends Fragment {
 
     TextView studentId, studentName, studentEmail;
     Button collectDatabtn;
+    ImageButton logoutBtn;
 
-    String id, name, mail;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,10 +61,11 @@ public class ProfileFragment extends Fragment {
         studentName = (TextView) view.findViewById(R.id.fullNameTxt2);
         studentEmail = (TextView) view.findViewById(R.id.emailTxt2);
         collectDatabtn = (Button) view.findViewById(R.id.collect_data_btn);
+        logoutBtn = (ImageButton) view.findViewById(R.id.logout_btn);
 
-        id = (String) studentId.getText();
-        name = (String) studentName.getText();
-        mail = (String) studentEmail.getText();
+       studentId.setText(Global.studentid);
+       studentName.setText(Global.studentname);
+       studentEmail.setText(Global.email);
 
         collectDatabtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +76,38 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void logout() {
+        ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
+
+        Call<ResponseBody> call = getResponse.logout();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful())
+                {
+                    startActivity(new Intent(getActivity(), SigninActivity.class));
+                }else {
+                    Toast.makeText(getActivity(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void captureVideo() {
@@ -107,9 +147,9 @@ public class ProfileFragment extends Fragment {
                             DetectVideoActivity.class);
 
                     intent.putExtra("videoPath", selectedVideoPath);
-                    intent.putExtra("studentName", name);
-                    intent.putExtra("studentId", id);
-                    intent.putExtra("studentEmail", mail);
+                    intent.putExtra("studentName", Global.studentname);
+                    intent.putExtra("studentId", Global.studentid);
+                    intent.putExtra("studentEmail", Global.email);
                     startActivity(intent);
                 }
             } else {

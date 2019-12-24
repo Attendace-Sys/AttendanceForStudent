@@ -1,16 +1,16 @@
-package com.project.attendanceforstudent;
+package com.project.attendanceforstudent.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.project.attendanceforstudent.Model.Course;
+import com.project.attendanceforstudent.Interface.CardClickListener;
+import com.project.attendanceforstudent.DetailCourseActivity;
+import com.project.attendanceforstudent.Model.CourseCard;
+import com.project.attendanceforstudent.R;
 
 import java.util.ArrayList;
 
@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAdapter.ViewHolder>
 {
 
-    private ArrayList<Course> courses;
+    private ArrayList<CourseCard> courses;
     private Context context;
 
-    public CourseCardDataAdapter(Context context, ArrayList<Course> listCourse) {
+    public CourseCardDataAdapter(Context context, ArrayList<CourseCard> listCourse) {
         this.context = context;
         this.courses = listCourse;
     }
@@ -46,12 +46,14 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
         viewHolder.setCardClickListener(new CardClickListener() {
             @Override
             public void onCardClick(View v, int pos) {
+                String id = courses.get(pos).getId();
                 String name = courses.get(pos).getName();
                 String teacher = courses.get(pos).getTeacher();
                 String time = courses.get(pos).getTime();
                 String room = courses.get(pos).getRoom();
 
                 Intent intent = new Intent(context, DetailCourseActivity.class);
+                intent.putExtra("courseId", id);
                 intent.putExtra("iName", name);
                 intent.putExtra("iTeacher", teacher);
                 intent.putExtra("iTime", time);

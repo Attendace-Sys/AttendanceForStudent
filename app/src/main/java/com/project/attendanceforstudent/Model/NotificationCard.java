@@ -1,9 +1,15 @@
 package com.project.attendanceforstudent.Model;
 
-public class Notification {
+import android.app.Notification;
+
+public class NotificationCard {
     String title;
     String message;
     Boolean is_absent;
+
+    public NotificationCard(){
+
+    }
 
     public String getTitle() {
         return title;

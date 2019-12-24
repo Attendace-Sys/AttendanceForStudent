@@ -1,6 +1,7 @@
 package com.project.attendanceforstudent;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,19 +33,14 @@ import androidx.core.content.ContextCompat;
 public class CreateProfileActivity extends AppCompatActivity {
 
     // Activity request codes
-    private static final int CAPTURE_IMAGE_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_REQUEST_CODE = 200;
 
-    private static final int SELECT_IMAGE_REQUEST_CODE = 300;
     private static final int SELECT_VIDEO_REQUEST_CODE = 400;
 
     private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7777;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
-
-    // Bitmap sampling size
-    public static final int BITMAP_SAMPLE_SIZE = 8;
 
     // Gallery directory name to store the images or videos
     public static final String GALLERY_DIRECTORY_NAME = "Hello Camera";
@@ -225,6 +221,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, SELECT_VIDEO_REQUEST_CODE);
     }
 
+//    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {

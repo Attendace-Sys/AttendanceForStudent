@@ -1,11 +1,42 @@
 package com.project.attendanceforstudent.Model;
 
-public class Course {
+public class CourseCard {
+    String id;
     String name;
+    String teacherId;
     String teacher;
     String time;
     String room;
     String status;
+
+    public CourseCard(){
+
+    }
+    public CourseCard(String id, String name, String teacherId , String teacher, String time, String room, String status) {
+        this.id = id;
+        this.name = name;
+        this.teacherId = teacherId;
+        this.teacher = teacher;
+        this.time = time;
+        this.room = room;
+        this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
 
     public String getTeacher() {
         return teacher;
@@ -47,6 +78,5 @@ public class Course {
     public void setStatus(String status) {
         this.status = status;
     }
-
 
 }
