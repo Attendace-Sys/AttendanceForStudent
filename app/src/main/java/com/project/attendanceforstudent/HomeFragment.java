@@ -13,6 +13,7 @@ import com.project.attendanceforstudent.Networking.Course;
 import com.project.attendanceforstudent.Networking.Courses;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -26,10 +27,10 @@ import static com.project.attendanceforstudent.Global.token;
 
 public class HomeFragment extends Fragment {
 
-    ArrayList<CourseCard> listCourse;
+    Courses listCourse;
     RecyclerView courseRecyclerView;
 
-    String nameCourse[] = {"Chuyên đề J2EE - SE324.J23","Ứng dụng di động - SE102.K12","Toán cao cấp 1 - MA001.J21"};
+    String nameCourse[] = {"Chuyên đề J2EE - SE324.J23", "Ứng dụng di động - SE102.K12", "Toán cao cấp 1 - MA001.J21"};
     String teachers[] = {"ThS. Trương Hùng", "TS. Cao Thị Vân", "ThS. Vũ Hồng Thúy"};
     String times[] = {"Thứ 2: Tiết 123", "Thứ 3: Tiết 678", "Thứ 7: Tiết 1234"};
     String rooms[] = {"Phòng A11.09", "Phòng B05.12", "Phòng C102"};
@@ -38,6 +39,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,55 +47,26 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         courseRecyclerView = (RecyclerView) view.findViewById(R.id.courses_recyclerView);
 
-        listCourse = new ArrayList<CourseCard>();
-
-        //callApi();
-        addCourses();
+        callApi();
+//        addCourses();
 
         return view;
     }
+
     private void callApi() {
         ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
 
 
-        Call<Courses> call = getResponse.getListCourse("Token "+ token, Global.studentid);
+        Call<Courses> call = getResponse.getListCourse("Token " + token, Global.studentid);
         call.enqueue(new Callback<Courses>() {
             @Override
             public void onResponse(Call<Courses> call, Response<Courses> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
 
-                    Courses courses = (Courses) response.body();
-                    listCourse = convertClassesFromCourses(courses);
+                    listCourse = (Courses) response.body();
                     addCourses();
 
                 }
-            }
-
-            private ArrayList<CourseCard> convertClassesFromCourses(Courses courses) {
-
-                ArrayList<CourseCard> list = new ArrayList<>();
-
-                for ( Course item : courses.getClasses()) {
-
-                    CourseCard course = convertClassToCourse(item);
-                    list.add(course);
-                }
-
-                return list;
-            }
-
-
-            private CourseCard convertClassToCourse(Course item) {
-
-                String id = item.getCourseCode();
-                String name = item.getCourseName();
-                String teacherName = "Tên giảng viên";
-                String teacherID = item.getTeacher();
-                String time = "Thứ "+ item.getDayOfWeek();
-                String room = "";
-                String status = "";
-                CourseCard course = new CourseCard(id, name, teacherID, teacherName, time, room, status);
-                return course;
             }
 
             @Override
@@ -109,18 +82,10 @@ public class HomeFragment extends Fragment {
         courseRecyclerView.setLayoutManager(linearLayoutManager);
         courseRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        for (int i = 0; i < nameCourse.length; i++)
-        {
-            CourseCard course = new CourseCard();
-            course.setName(nameCourse[i]);
-            course.setTeacher(teachers[i]);
-            course.setTime(times[i]);
-            course.setRoom(rooms[i]);
-            course.setStatus(statuses[i]);
-            listCourse.add(course);
-        }
+        ArrayList<Course> afterSort = listCourse.getCourses();
+        Collections.sort(afterSort);
 
-        CourseCardDataAdapter adapter = new CourseCardDataAdapter(getActivity(), listCourse);
+        CourseCardDataAdapter adapter = new CourseCardDataAdapter(getActivity(), afterSort);
         courseRecyclerView.setAdapter(adapter);
     }
 }

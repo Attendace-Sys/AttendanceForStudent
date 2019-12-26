@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.project.attendanceforstudent.Interface.CardClickListener;
 import com.project.attendanceforstudent.DetailCourseActivity;
 import com.project.attendanceforstudent.Model.CourseCard;
+import com.project.attendanceforstudent.Networking.Course;
 import com.project.attendanceforstudent.R;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAdapter.ViewHolder>
 {
 
-    private ArrayList<CourseCard> courses;
+    private ArrayList<Course> courses;
     private Context context;
 
-    public CourseCardDataAdapter(Context context, ArrayList<CourseCard> listCourse) {
+    public CourseCardDataAdapter(Context context, ArrayList<Course> listCourse) {
         this.context = context;
         this.courses = listCourse;
     }
@@ -36,21 +37,24 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.name.setText(courses.get(i).getName());
-        viewHolder.teacher.setText(courses.get(i).getTeacher());
-        viewHolder.time.setText(courses.get(i).getTime());
-        viewHolder.room.setText(courses.get(i).getRoom());
-        viewHolder.status.setText(courses.get(i).getStatus());
+        int timeEnd = courses.get(i).getTimeStartOfCourse() + courses.get(i).getTimeDuration();
+        final String mtime = "Thứ " + courses.get(i).getDayOfWeek() + ": Tiết " + courses.get(i).getTimeStartOfCourse() + " đến tiết " + timeEnd;
+
+        viewHolder.name.setText(courses.get(i).getCourseName());
+        viewHolder.teacher.setText(courses.get(i).getTeacherFirstName());
+        viewHolder.time.setText(mtime);
+        viewHolder.room.setText(courses.get(i).getCourseRoom());
+//        viewHolder.status.setText(courses.get(i).getStatus());
 
         /*Use when you want to view detail on each card click*/
         viewHolder.setCardClickListener(new CardClickListener() {
             @Override
             public void onCardClick(View v, int pos) {
-                String id = courses.get(pos).getId();
-                String name = courses.get(pos).getName();
-                String teacher = courses.get(pos).getTeacher();
-                String time = courses.get(pos).getTime();
-                String room = courses.get(pos).getRoom();
+                String id = courses.get(pos).getCourseCode();
+                String name = courses.get(pos).getCourseName();
+                String teacher = courses.get(pos).getTeacherFirstName();
+                String time = mtime;
+                String room = courses.get(pos).getCourseRoom();
 
                 Intent intent = new Intent(context, DetailCourseActivity.class);
                 intent.putExtra("courseId", id);
@@ -79,7 +83,7 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
             teacher = (TextView) view.findViewById(R.id.teacher_name_txt);
             time = (TextView) view.findViewById(R.id.class_time_txt);
             room = (TextView) view.findViewById(R.id.room_txt);
-            status = (TextView) view.findViewById(R.id.status_txt);
+//            status = (TextView) view.findViewById(R.id.status_txt);
 
             view.setOnClickListener(this);
         }

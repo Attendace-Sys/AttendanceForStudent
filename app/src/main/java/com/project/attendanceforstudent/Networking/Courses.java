@@ -1,21 +1,24 @@
 
 package com.project.attendanceforstudent.Networking;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.util.ArrayList;
 import java.util.List;
-
+import com.google.gson.annotations.SerializedName;
 
 public class Courses {
 
-    @SerializedName("classes")
-    private List<Course> mCourses;
+    @SerializedName("courses")
+    private ArrayList<Course> mCourses;
 
-    public List<Course> getClasses() {
+    public Courses(ArrayList<Course> mCourses) {
+        this.mCourses = mCourses;
+    }
+
+    public ArrayList<Course> getCourses() {
         return mCourses;
     }
 
-    public void setClasses(List<Course> courses) {
+    public void setCourses(ArrayList<Course> courses) {
         mCourses = courses;
     }
 

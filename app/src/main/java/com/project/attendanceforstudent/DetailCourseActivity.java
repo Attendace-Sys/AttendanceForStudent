@@ -20,6 +20,8 @@ import com.project.attendanceforstudent.Adapter.CheckingCardDataAdapter;
 import com.project.attendanceforstudent.Model.CheckingCard;
 import com.project.attendanceforstudent.Networking.ApiConfig;
 import com.project.attendanceforstudent.Networking.AppConfig;
+import com.project.attendanceforstudent.Networking.Attendance;
+import com.project.attendanceforstudent.Networking.Attendances;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +29,7 @@ import java.util.Collections;
 
 public class DetailCourseActivity extends AppCompatActivity {
 
-    ArrayList<CheckingCard> checkingList;
+    Attendances checkingList;
     RecyclerView checkingRecyclerView;
 
     TextView mNameCourseTv, mTeacherTv, mTimeTv, mRoomTv;
@@ -66,11 +68,9 @@ public class DetailCourseActivity extends AppCompatActivity {
         mTimeTv.setText(mTime);
         mRoomTv.setText(mRoom);
 
-        checkingList = new ArrayList<CheckingCard>();
+        callApi(mCourseId);
 
-        //callApi();
-
-        addChecking();
+//        addChecking();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,56 +83,27 @@ public class DetailCourseActivity extends AppCompatActivity {
 
     }
 
-    private void callApi() {
+    private void callApi(String courseId) {
         ApiConfig getResponse = AppConfig.getRetrofit().create(ApiConfig.class);
 
 
-//        Call<Schedules> call = getResponse.getListSchedule("Token "+ Global.token, mId);
-//        call.enqueue(new Callback<Schedules>() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//            public void onResponse(Call<Schedules> call, Response<Schedules> response) {
-//                if(response.isSuccessful()) {
-//
-//                    Schedules schedules = (Schedules) response.body();
-//                    checkingList = convertClassesFromCourses(schedules);
-//                    addChecking();
-//
-//                }
-//            }
-//
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            private ArrayList<CheckingCard> convertClassesFromCourses(Schedules schedules) {
-//
-//                ArrayList<CheckingCard> list = new ArrayList<>();
-//
-//                for ( Schedule item : schedules.getSchedule()) {
-//
-//                    CheckingCard schedule = convertClassToCourse(item);
-//                    list.add(schedule);
-//                }
-//
-//                return list;
-//            }
-//
-//
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            private CheckingCard convertClassToCourse(Schedule item) {
-//                String scheduldeCode = item.getScheduleCode();
-//                String attendanceId = item.getAttendanceCode();
-//                int numberOfWeek = Math.toIntExact(item.getScheduleNumberOfDay());
-//                String date = item.getScheduleDate();
-//                boolean is_absent = item.getAbsentStatus();
-//
-//                CheckingCard checking = new CheckingCard( scheduldeCode, attendanceId, numberOfWeek, date, is_absent);
-//                return checking;
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Schedules> call, Throwable t) {
-//
-//            }
-//        });
+        Call<Attendances> call = getResponse.getListAttendanceOfCourse("Token "+ Global.token, courseId , Global.studentid);
+        call.enqueue(new Callback<Attendances>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<Attendances> call, Response<Attendances> response) {
+                if(response.isSuccessful()) {
+
+                    checkingList = (Attendances) response.body();
+                    addChecking();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Attendances> call, Throwable t) {
+
+            }
+        });
 
     }
 
@@ -142,19 +113,9 @@ public class DetailCourseActivity extends AppCompatActivity {
         checkingRecyclerView.setLayoutManager(linearLayoutManager);
         checkingRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        for (int i = 0; i < 3; i++)
-        {
-            CheckingCard checking = new CheckingCard();
-            checking.setNumberOfWeek(2 - i);
-            checking.setDate(dates[i]);
-            checking.setIs_absent(ischecking[i]);
-
-            checkingList.add(checking);
-        }
-
-        Collections.sort(checkingList);
-
-        CheckingCardDataAdapter adapter = new CheckingCardDataAdapter(this, checkingList);
+        ArrayList<Attendance> afterSort = (ArrayList<Attendance>) checkingList.getAttendances();
+        Collections.sort(afterSort);
+        CheckingCardDataAdapter adapter = new CheckingCardDataAdapter(this, afterSort);
         checkingRecyclerView.setAdapter(adapter);
     }
 }

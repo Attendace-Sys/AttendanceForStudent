@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.project.attendanceforstudent.Interface.CardClickListener;
 import com.project.attendanceforstudent.Model.CheckingCard;
+import com.project.attendanceforstudent.Networking.Attendance;
 import com.project.attendanceforstudent.R;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CheckingCardDataAdapter extends RecyclerView.Adapter<CheckingCardDataAdapter.ViewHolder>{
-    private ArrayList<CheckingCard> checkingList;
+    private ArrayList<Attendance> checkingList;
     private Context context;
 
-    public CheckingCardDataAdapter(Context context, ArrayList<CheckingCard> list) {
+    public CheckingCardDataAdapter(Context context, ArrayList<Attendance> list) {
         this.context = context;
         this.checkingList = list;
     }
@@ -35,9 +36,9 @@ public class CheckingCardDataAdapter extends RecyclerView.Adapter<CheckingCardDa
 
     @Override
     public void onBindViewHolder(@NonNull CheckingCardDataAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.week.setText("#" + checkingList.get(i).getNumberOfWeek());
-        viewHolder.date.setText(checkingList.get(i).getDate());
-        if (checkingList.get(i).isIs_absent() == false)
+        viewHolder.week.setText("#" + checkingList.get(i).getmScheduleCodeScheduleNumberOfDay());
+        viewHolder.date.setText(checkingList.get(i).getmScheduleCodeScheduleDate());
+        if (checkingList.get(i).getmAbsentStatus() == false)
         {
             viewHolder.is_absent.setVisibility(View.GONE);
         }

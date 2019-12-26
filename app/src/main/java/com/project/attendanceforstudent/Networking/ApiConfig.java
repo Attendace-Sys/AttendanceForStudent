@@ -22,25 +22,25 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface ApiConfig {
-    @Multipart
-    @POST("students/serializer/students//")
-    Call<ResponseBody> upload(
-            @Part("student_code") RequestBody student_id,
-            @Part("full_name") RequestBody student_name,
-            @Part("email") RequestBody student_email,
-//            @PartMap Map<String, RequestBody> student_video_data
-            @Part MultipartBody.Part student_video_data
-            );
+//    @Multipart
+//    @POST("students/serializer/students//")
+//    Call<ResponseBody> upload(
+//            @Part("student_code") RequestBody student_id,
+//            @Part("full_name") RequestBody student_name,
+//            @Part("email") RequestBody student_email,
+////            @PartMap Map<String, RequestBody> student_video_data
+//            @Part MultipartBody.Part student_video_data
+//            );
+//
+//    @Multipart
+//    @POST("students/serializer/images//")
+//    Call<ResponseBody> uploadImage(
+//            @Part("student") RequestBody student,
+//            @Part MultipartBody.Part image_data
+//    );
 
     @Multipart
-    @POST("students/serializer/images//")
-    Call<ResponseBody> uploadImage(
-            @Part("student") RequestBody student,
-            @Part MultipartBody.Part image_data
-    );
-
-    @Multipart
-    @POST("students/new")
+    @POST("students/new/")
     Call<ResponseBody> uploadStudentProfile(
             @Part("student_code") RequestBody student_code,
             @Part("first_name") RequestBody student_name,
@@ -57,8 +57,13 @@ public interface ApiConfig {
     @POST("api/v1/auth/logout/")
     Call<ResponseBody> logout();
 
-    @GET("api/v1/courses/student/{studentid}")
+    @GET("api/v1/students/list_course/{student}/")
     Call<Courses> getListCourse(@Header("Authorization") String authorization,
-                                @Path("studentid") String id);
+                                @Path("student") String id);
+
+    @GET("api/v1/student/schedule_attendance_status/{course_code}/{student_code}/")
+    Call<Attendances> getListAttendanceOfCourse(@Header("Authorization") String authorization,
+                                     @Path("course_code") String course_code,
+                                     @Path("student_code") String student_code);
 
 }

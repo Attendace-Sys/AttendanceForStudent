@@ -3,29 +3,41 @@ package com.project.attendanceforstudent.Networking;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-
-public class Course {
+public class Course implements Comparable{
 
     @SerializedName("course_code")
     private String mCourseCode;
     @SerializedName("course_name")
     private String mCourseName;
+    @SerializedName("course_room")
+    private String mCourseRoom;
     @SerializedName("day_of_week")
-    private String mDayOfWeek;
+    private int mDayOfWeek;
     @SerializedName("end_day")
     private String mEndDay;
     @SerializedName("start_day")
     private String mStartDay;
-    @SerializedName("students")
-    private List<Object> mStudents;
     @SerializedName("teacher")
     private String mTeacher;
+    @SerializedName("teacher__first_name")
+    private String mTeacherFirstName;
     @SerializedName("time_duration")
-    private Long mTimeDuration;
+    private int mTimeDuration;
     @SerializedName("time_start_of_course")
-    private String mTimeStartOfCourse;
+    private int mTimeStartOfCourse;
+
+    public Course(String mCourseCode, String mCourseName, String mCourseRoom, int mDayOfWeek, String mEndDay, String mStartDay, String mTeacher, String mTeacherFirstName, int mTimeDuration, int mTimeStartOfCourse) {
+        this.mCourseCode = mCourseCode;
+        this.mCourseName = mCourseName;
+        this.mCourseRoom = mCourseRoom;
+        this.mDayOfWeek = mDayOfWeek;
+        this.mEndDay = mEndDay;
+        this.mStartDay = mStartDay;
+        this.mTeacher = mTeacher;
+        this.mTeacherFirstName = mTeacherFirstName;
+        this.mTimeDuration = mTimeDuration;
+        this.mTimeStartOfCourse = mTimeStartOfCourse;
+    }
 
     public String getCourseCode() {
         return mCourseCode;
@@ -43,11 +55,19 @@ public class Course {
         mCourseName = courseName;
     }
 
-    public String getDayOfWeek() {
+    public String getCourseRoom() {
+        return mCourseRoom;
+    }
+
+    public void setCourseRoom(String courseRoom) {
+        mCourseRoom = courseRoom;
+    }
+
+    public int getDayOfWeek() {
         return mDayOfWeek;
     }
 
-    public void setDayOfWeek(String dayOfWeek) {
+    public void setDayOfWeek(int dayOfWeek) {
         mDayOfWeek = dayOfWeek;
     }
 
@@ -67,14 +87,6 @@ public class Course {
         mStartDay = startDay;
     }
 
-    public List<Object> getStudents() {
-        return mStudents;
-    }
-
-    public void setStudents(List<Object> students) {
-        mStudents = students;
-    }
-
     public String getTeacher() {
         return mTeacher;
     }
@@ -83,20 +95,33 @@ public class Course {
         mTeacher = teacher;
     }
 
-    public Long getTimeDuration() {
+    public String getTeacherFirstName() {
+        return mTeacherFirstName;
+    }
+
+    public void setTeacherFirstName(String teacherFirstName) {
+        mTeacherFirstName = teacherFirstName;
+    }
+
+    public int getTimeDuration() {
         return mTimeDuration;
     }
 
-    public void setTimeDuration(Long timeDuration) {
+    public void setTimeDuration(int timeDuration) {
         mTimeDuration = timeDuration;
     }
 
-    public String getTimeStartOfCourse() {
+    public int getTimeStartOfCourse() {
         return mTimeStartOfCourse;
     }
 
-    public void setTimeStartOfCourse(String timeStartOfCourse) {
+    public void setTimeStartOfCourse(int timeStartOfCourse) {
         mTimeStartOfCourse = timeStartOfCourse;
     }
 
+    @Override
+    public int compareTo(Object o) {
+        int compare = ((Course) o).getDayOfWeek();
+        return this.getDayOfWeek() - compare;
+    }
 }
