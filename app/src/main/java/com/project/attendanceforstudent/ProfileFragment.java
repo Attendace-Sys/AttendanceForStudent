@@ -72,6 +72,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 //                captureVideo();
                 Intent intent = new Intent(getContext(), CreateProfileActivity.class);
+
                 startActivity(intent);
             }
         });

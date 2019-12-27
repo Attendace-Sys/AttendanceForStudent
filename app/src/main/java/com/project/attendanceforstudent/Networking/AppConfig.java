@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AppConfig {
 
     //public static String BASE_URL = "https://deploy-attendance-release-ver-3.azurewebsites.net/";
-    public static String BASE_URL = "http://192.168.1.4:8000/";
+    public static String BASE_URL = "http://192.168.1.5:8000/";
 
     private static Retrofit retrofit;
 

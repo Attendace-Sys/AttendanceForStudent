@@ -73,6 +73,10 @@ public class CreateProfileActivity extends AppCompatActivity {
         id = (EditText) findViewById(R.id.student_id);
         mail = (EditText)findViewById(R.id.email);
 
+        id.setText(Global.studentid);
+        name.setText(Global.studentname);
+        mail.setText(Global.email);
+
         txtGuide = findViewById(R.id.txtGuide);
 
 
