@@ -117,33 +117,4 @@
         android:text="Sign in"/>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="30dp">
-
-
-        <com.project.attendanceforstudent.customfonts.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?"
-            android:textColor="#fff"
-            android:letterSpacing="0.025"
-            android:textSize="14dp"
-            />
-        <com.project.attendanceforstudent.customfonts.MyTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:textSize="14dp"
-            android:textColor="#fff"
-            android:letterSpacing="0.025"
-            android:textStyle="bold"
-            android:layout_marginLeft="5dp"/>
-
-    </LinearLayout>
-
 </LinearLayout>

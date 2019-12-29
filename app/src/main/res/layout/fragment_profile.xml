@@ -9,19 +9,19 @@
     <FrameLayout
         android:id="@+id/profileHeader"
         android:layout_width="match_parent"
-        android:layout_height="241dp">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="437dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="206dp"
             android:layout_marginBottom="25dp"
             android:scaleType="centerCrop"
             android:src="@drawable/profilebg" />
 
         <LinearLayout
-            android:layout_width="421dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top"
+            android:gravity="center|top"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -43,7 +43,7 @@
             <com.project.attendanceforstudent.customfonts.MyTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center"
                 android:text="Your Profile"
                 android:textColor="#fff"
@@ -147,7 +147,7 @@
             <com.project.attendanceforstudent.customfonts.MyTextView
                 android:id="@+id/emailTxt"
                 android:layout_width="229dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#0000"
                 android:gravity="left"

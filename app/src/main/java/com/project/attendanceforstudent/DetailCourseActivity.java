@@ -32,7 +32,7 @@ public class DetailCourseActivity extends AppCompatActivity {
     Attendances checkingList;
     RecyclerView checkingRecyclerView;
 
-    TextView mNameCourseTv, mTeacherTv, mTimeTv, mRoomTv;
+    TextView mNameCourseTv, mTeacherTv, mTimeTv, mRoomTv, numPresentTv, numAbsentTv;
     ImageView back;
 
     String dates[] = {"Thứ 2: Ngày 01/20/2109", "Thứ 3: Ngày 22/11/2019", "Thứ 7: Ngày 12/12/2019"};
@@ -51,6 +51,8 @@ public class DetailCourseActivity extends AppCompatActivity {
         mTimeTv = (TextView) findViewById(R.id.d_class_time_txt);
         mRoomTv = (TextView) findViewById(R.id.d_room_txt);
         back = (ImageView) findViewById(R.id.back);
+        numPresentTv = (TextView) findViewById(R.id.num_presnt_txt);
+        numAbsentTv = (TextView) findViewById(R.id.num_absent_txt);
         checkingRecyclerView = (RecyclerView) findViewById(R.id.checking_recyclerView);
 
 
@@ -70,8 +72,6 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         callApi(mCourseId);
 
-//        addChecking();
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,8 +79,6 @@ public class DetailCourseActivity extends AppCompatActivity {
                 startActivity(intentBack);
             }
         });
-
-
     }
 
     private void callApi(String courseId) {
@@ -96,6 +94,7 @@ public class DetailCourseActivity extends AppCompatActivity {
 
                     checkingList = (Attendances) response.body();
                     addChecking();
+                    setNumPresent();
                 }
             }
 
@@ -115,7 +114,23 @@ public class DetailCourseActivity extends AppCompatActivity {
 
         ArrayList<Attendance> afterSort = (ArrayList<Attendance>) checkingList.getAttendances();
         Collections.sort(afterSort);
+        checkingList.setAttendances(afterSort);
         CheckingCardDataAdapter adapter = new CheckingCardDataAdapter(this, afterSort);
         checkingRecyclerView.setAdapter(adapter);
+    }
+
+    private void setNumPresent() {
+        int sumStudent = checkingList.getAttendances().size();
+        int count = 0;
+        for ( Attendance item : checkingList.getAttendances()) {
+            if (item.getmAbsentStatus() == false)
+                count ++;
+        }
+
+        int numPresent = sumStudent - count;
+
+        numPresentTv.setText(String.valueOf(numPresent));
+        numAbsentTv.setText(String.valueOf(count));
+
     }
 }

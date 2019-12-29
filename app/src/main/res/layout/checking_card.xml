@@ -121,7 +121,8 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:text="Phản hồi"
-                    android:textColor="#192B94" />
+                    android:textColor="#192B94"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
