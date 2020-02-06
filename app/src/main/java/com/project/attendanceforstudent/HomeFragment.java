@@ -30,12 +30,6 @@ public class HomeFragment extends Fragment {
     Courses listCourse;
     RecyclerView courseRecyclerView;
 
-    String nameCourse[] = {"Chuyên đề J2EE - SE324.J23", "Ứng dụng di động - SE102.K12", "Toán cao cấp 1 - MA001.J21"};
-    String teachers[] = {"ThS. Trương Hùng", "TS. Cao Thị Vân", "ThS. Vũ Hồng Thúy"};
-    String times[] = {"Thứ 2: Tiết 123", "Thứ 3: Tiết 678", "Thứ 7: Tiết 1234"};
-    String rooms[] = {"Phòng A11.09", "Phòng B05.12", "Phòng C102"};
-    String statuses[] = {"Đang học", "Đang học", "Đang học"};
-
     public HomeFragment() {
         // Required empty public constructor
     }

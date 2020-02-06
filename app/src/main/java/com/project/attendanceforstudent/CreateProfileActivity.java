@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +50,9 @@ public class CreateProfileActivity extends AppCompatActivity {
     public static final String IMAGE_EXTENSION = "jpg";
     public static final String VIDEO_EXTENSION = "mp4";
 
-    EditText name, id, mail;
+    TextView name, id, mail;
     Button btnSelect, btnRecordVideo;
+    ImageView back_btn;
     String selectedVideoPath;
     String fileManagerString;
     String studentName;
@@ -69,9 +71,10 @@ public class CreateProfileActivity extends AppCompatActivity {
 
         btnSelect = (Button) findViewById(R.id.btnSelect);
         btnRecordVideo = (Button) findViewById(R.id.btnRecordVideo);
-        name = (EditText) findViewById(R.id.student_name);
-        id = (EditText) findViewById(R.id.student_id);
-        mail = (EditText)findViewById(R.id.email);
+        name = (TextView) findViewById(R.id.student_name);
+        id = (TextView) findViewById(R.id.student_id);
+        mail = (TextView)findViewById(R.id.email);
+        back_btn=(ImageView) findViewById(R.id.back);
 
         id.setText(Global.studentid);
         name.setText(Global.studentname);
@@ -124,6 +127,14 @@ public class CreateProfileActivity extends AppCompatActivity {
             }
         });
 
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentBack = new Intent(CreateProfileActivity.this, MainActivity.class);
+                intentBack.putExtra("fragmentName", "profile");
+                startActivity(intentBack);
+            }
+        });
 
     }
 
@@ -225,7 +236,7 @@ public class CreateProfileActivity extends AppCompatActivity {
         startActivityForResult(intent, SELECT_VIDEO_REQUEST_CODE);
     }
 
-//    @SuppressLint("MissingSuperCall")
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_VIDEO_REQUEST_CODE && resultCode == RESULT_OK) {

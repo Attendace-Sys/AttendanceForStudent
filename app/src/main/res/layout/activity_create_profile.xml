@@ -4,243 +4,233 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:layout_alignParentTop="true">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/natural"
-            android:layout_width="match_parent"
-            android:layout_height="171dp"
-            android:background="@drawable/sea"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
+    android:background="@drawable/profile_bg"
+    tools:context=".CreateProfileActivity">
 
     <LinearLayout
-        android:id="@+id/imageLinear"
+        android:id="@+id/profileHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_back" />
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/profile_image"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="35dp"
-            android:src="@drawable/logo" />
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/natural"
-        android:orientation="vertical">
-
-        <com.project.attendanceforstudent.customfonts.MyTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textAlignment="center"
-            android:background="#0000"
-            android:textAllCaps="true"
-            android:text="Thông tin sinh viên "
-            android:textColor="#1b193b"
-            android:textStyle="bold"
-            android:textSize="16dp" />
+            android:layout_marginBottom="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile2" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/studentIdTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Mã Sinh Viên"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/student_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:editable="false"
-                android:gravity="right"
-                android:hint="15520001"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:background="@drawable/profile_background"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/fullNameTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Họ và tên"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Thông tin sinh viên"
+                android:textAllCaps="true"
+                android:textColor="@color/textBold"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/studentIdTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Mã Sinh Viên"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/student_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:gravity="right"
+                    android:hint="15520001"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/fullNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Họ và tên"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/student_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="#0000"
+                    android:gravity="right"
+                    android:hint="Nguyễn Văn A"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/emailTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Email"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="#0000"
+                    android:gravity="right"
+                    android:hint="15520001@gm.uit.edu.vn"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:id="@+id/faceVideoTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="Lấy mẫu video khuôn mặt"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/student_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="#0000"
-                android:gravity="right"
-                android:hint="Nguyễn Văn A"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
                 android:textSize="16dp"
-                android:maxLines="1"/>
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/emailTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Email"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-            <com.project.attendanceforstudent.customfonts.MyEditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="#0000"
-                android:gravity="right"
-                android:hint="15520001@gm.uit.edu.vn"
-                android:inputType="text"
-                android:padding="16dp"
-                android:textColor="#181737"
-                android:textColorHint="#a2a1b8"
-                android:textSize="16dp"
-                android:maxLines="1"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-        <com.project.attendanceforstudent.customfonts.MyTextView
-            android:id="@+id/faceVideoTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textAlignment="center"
-            android:background="#0000"
-            android:textAllCaps="true"
-            android:text="Lấy mẫu video khuôn mặt"
-            android:textColor="#1b193b"
-            android:textStyle="bold"
-            android:textSize="16dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp">
 
                 <TextView
                     android:id="@+id/txtGuide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:autoLink="web"
                     android:clickable="true"
                     android:text="@string/guide_face_collection"
                     android:textAlignment="center"
                     android:textColor="#F44336" />
 
-                <Button
-                    android:id="@+id/btnRecordVideo"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:background="#9C016951"
-                    android:text="Quay video khuôn mặt " />
+                    android:layout_marginVertical="10dp"
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnSelect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#9C016951"
-                    android:text="Chọn từ gallery ..." />
+                    <Button
+                        android:id="@+id/btnRecordVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_fill"
+                        android:text="Quay video khuôn mặt"
+                        android:textColor="@color/whitecolor" />
+
+                    <Button
+                        android:id="@+id/btnSelect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_stroke"
+                        android:text="Chọn từ gallery ..."
+                        android:textColor="@color/textBold" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
-    </RelativeLayout>
+
 </ScrollView>

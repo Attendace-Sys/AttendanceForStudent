@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#E9009688</color>
-<!--    <color name="colorPrimary">#344955</color>-->
-    <color name="colorPrimaryDark">#17262A</color>
+    <color name="colorPrimary">#174271</color>
+    <color name="colorPrimaryDark">#0E345C</color>
     <color name="colorAccent">#FAAB1A</color>
-    <color name="dpnamecolor">#fff</color>
-    <color name="weekcolor">#fff</color>
+    <color name="colorLightPrimary">#2B5081</color>
+    <color name="red">#F22749</color>
+
+    <color name="whitecolor">#ffffff</color>
+    <color name="lightWhite">#F9FAFE</color>
+    <color name="darkWhite">#E8F0FB</color>
+    <color name="moredarkwhite">#D1DEEE</color>
+
+    <color name="textBold">#124181</color>
+    <color name="textNormal">#355989</color>
+    <color name="textLight">#8DA0C5</color>
+    <color name="textInDarkBG">#58748F</color>
+
+    <color name="buttonExitBG">#1D5A94</color>
+    <color name="greenButton">#D9EFC8</color>
+
+    <color name="textGreen">#5D942E</color>
+    <color name="borderYellow">#CCBB18</color>
+
     <color name="agendacolor">#8E9097</color>
     <color name="timecolor">#000</color>
     <color name="schedulecolor">#000</color>

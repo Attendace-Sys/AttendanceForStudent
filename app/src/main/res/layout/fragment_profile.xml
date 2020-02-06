@@ -1,201 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/profile_bg"
     tools:context=".ProfileFragment">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/profileHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="206dp"
-            android:layout_marginBottom="25dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profilebg" />
+            android:src="@drawable/profile2" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|top"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_background"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="10dp">
+
+            <com.project.attendanceforstudent.customfonts.MyTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Thông tin sinh viên"
+                android:textAllCaps="true"
+                android:textColor="@color/textBold"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/studentIdTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Mã Sinh Viên"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/studentIdTxt2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:editable="false"
+                    android:gravity="right"
+                    android:hint="15520001"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp"
+                    tools:ignore="Deprecated" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/logout_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_logout"
-                    android:tint="#000C2F86" />
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/fullNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Họ và tên"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
+
+
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/fullNameTxt2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="#0000"
+                    android:gravity="right"
+                    android:hint="Nguyễn Văn A"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp" />
             </LinearLayout>
 
-            <com.project.attendanceforstudent.customfonts.MyTextView
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:gravity="center"
-                android:text="Your Profile"
-                android:textColor="#fff"
-                android:textSize="20dp" />
-
-        </LinearLayout>
+                android:orientation="horizontal">
 
 
-    </FrameLayout>
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/emailTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:padding="16dp"
+                    android:text="Email"
+                    android:textColor="#1b193b"
+                    android:textSize="16dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profileHeader"
-        android:orientation="vertical">
+                <com.project.attendanceforstudent.customfonts.MyTextView
+                    android:id="@+id/emailTxt2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="#0000"
+                    android:gravity="right"
+                    android:hint="15520001@gm.uit.edu.vn"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="16dp"
+                    android:textColor="#181737"
+                    android:textColorHint="#a2a1b8"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dad8d8" />
 
             <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/studentIdTxt"
+                android:id="@+id/faceVideoTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Mã Sinh Viên"
+                android:padding="15dp"
+                android:text="Thu thập dữ liệu khuôn mặt"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="#1b193b"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
 
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/studentIdTxt2"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="right"
-                android:padding="16dp"
-                android:text="15520001"
-                android:textColor="@color/colorGray"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/fullNameTxt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Họ và tên"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/fullNameTxt2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="right"
-                android:padding="16dp"
-                android:text="Nguyễn Văn A"
-                android:textColor="@color/colorGray"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/emailTxt"
-                android:layout_width="229dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="left"
-                android:padding="16dp"
-                android:text="Email"
-                android:textColor="#1b193b"
-                android:textSize="16dp" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <com.project.attendanceforstudent.customfonts.MyTextView
-                android:id="@+id/emailTxt2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#0000"
-                android:gravity="right"
-                android:padding="16dp"
-                android:text="15520002@gm.uit.edu.vn"
-                android:textColor="@color/colorGray"
-                android:textSize="16dp" />
+                <Button
+                    android:id="@+id/collect_data_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_fill"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Thu thập dữ liệu"
+                    android:textColor="@color/whitecolor" />
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dad8d8" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/collect_data_btn"
+                android:id="@+id/logout_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lấy dữ liệu khuôn mặt" />
+                android:background="@drawable/button_logout"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Đăng xuất"
+                android:textColor="@color/colorOrange" />
         </LinearLayout>
-
     </LinearLayout>
 
-
-</RelativeLayout>
+</ScrollView>

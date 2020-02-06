@@ -3,26 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment"
-    android:background="@android:color/white">
+    android:background="@drawable/home_bg"
+    tools:context=".HomeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <FrameLayout
             android:id="@+id/topHeader"
             android:layout_width="match_parent"
-            android:layout_height="125dp">
+            android:layout_height="120dp">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="127dp"
-                android:background="@drawable/bg" />
+            <!--            <ImageView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="127dp"-->
+            <!--                android:background="@drawable/bg" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="148dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -31,26 +33,29 @@
                 <com.project.attendanceforstudent.customfonts.TextView_Lato
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Your Courses"
+                    android:text="Lớp của bạn"
                     android:textColor="#FFFFFF"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-
-                    />
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/courses_recyclerView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/topHeader"
-            android:background="@android:color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:scrollbars="vertical" />
+            android:background="@drawable/gradient"
+            android:orientation="vertical">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/courses_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient"
+                android:padding="10dp"
+                android:scrollbars="vertical" />
+        </LinearLayout>
 
     </RelativeLayout>
 

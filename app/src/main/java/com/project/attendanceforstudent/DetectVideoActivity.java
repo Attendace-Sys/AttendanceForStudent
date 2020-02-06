@@ -1,5 +1,6 @@
 package com.project.attendanceforstudent;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -162,7 +163,7 @@ public class DetectVideoActivity extends AppCompatActivity {
         RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), studentName);
         RequestBody mailBody = RequestBody.create(MediaType.parse("text/plain"), studentEmail);
 
-        Call<ResponseBody> call = getResponse.uploadStudentProfile(idBody, nameBody, mailBody, part, imgParts);
+        Call<ResponseBody> call = getResponse.uploadStudentProfile(Global.token, studentId, idBody, nameBody, mailBody, part, imgParts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -171,6 +172,9 @@ public class DetectVideoActivity extends AppCompatActivity {
 
                         Utils.hideLoadingIndicator();
                         Toast.makeText(getApplicationContext(), "Gửi thành công!", Toast.LENGTH_SHORT).show();
+                        Intent intentBack = new Intent(DetectVideoActivity.this, MainActivity.class);
+                        intentBack.putExtra("fragmentName", "profile");
+                        startActivity(intentBack);
 
                     }
                 } else {
@@ -282,7 +286,7 @@ public class DetectVideoActivity extends AppCompatActivity {
     }
 
     private void extractFrames(String path, String rotation) throws FrameGrabber.Exception {
-        final int NUM_FRAME_EXTRACT_PER_SECOND = 3;
+        final int NUM_FRAME_EXTRACT_PER_SECOND = 4;
         final float ONE_SECOND_IN_MICRO_SECONDS = 1000000.0f;
         float frameInterval = ONE_SECOND_IN_MICRO_SECONDS / NUM_FRAME_EXTRACT_PER_SECOND - ONE_SECOND_IN_MICRO_SECONDS / 10.0f;
         final int NUM_FRAMES = NUM_FRAME_EXTRACT_PER_SECOND * 3;

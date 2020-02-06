@@ -2,100 +2,123 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="112dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="5dp">
+    android:layout_height="170dp"
+    android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/cardview_bg"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@drawable/card_bg"
+            android:padding="5dp">
 
-            <View
-                android:layout_width="8dp"
+            <ImageView
+                android:id="@+id/imageCourse"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"></View>
+                android:src="@drawable/course">
+            </ImageView>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="102dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
 
-                <com.project.attendanceforstudent.customfonts.TextView_Lato
+                <com.project.attendanceforstudent.customfonts.MyTextView
                     android:id="@+id/name_course_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="Chuyên đề J2EE - SE325.J21"
-                    android:textColor="@color/colorGray"
+                    android:layout_marginLeft="10dp"
+                    android:text="Phương pháp phát triển phần mềm hướng đối tượng - SE325.J21"
+                    android:textColor="@color/textBold"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <View
-                        android:layout_width="7dp"
-                        android:layout_height="7dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/orange_circle"></View>
-
-                    <com.project.attendanceforstudent.customfonts.TextView_Lato
-                        android:id="@+id/status_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="Đang học"
-                        android:textColor="@color/colorOrange"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/linear2"
                     android:layout_width="match_parent"
-                    android:layout_height="75dp"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/name_course_txt"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="5dp"
                     android:orientation="vertical"
-                    android:paddingLeft="40dp">
+                    android:paddingLeft="15dp">
 
-                    <com.project.attendanceforstudent.customfonts.Textview_lato_thin
-                        android:id="@+id/teacher_name_txt"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ThS. Trương Hoàng"
-                        android:textColor="@color/colorLightGray"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
 
-                    <com.project.attendanceforstudent.customfonts.Textview_lato_thin
-                        android:id="@+id/class_time_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Thứ 2 : Tiết 123"
-                        android:textColor="@color/colorLightGray"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_teacher"
+                            android:contentDescription="TODO" />
 
-                    <com.project.attendanceforstudent.customfonts.Textview_lato_thin
-                        android:id="@+id/room_txt"
-                        android:layout_width="wrap_content"
+                        <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                            android:id="@+id/teacher_name_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ThS. Trương Hoàng"
+                            android:textColor="@color/colorLightGray"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="2dp"
-                        android:text="Phòng A3.07"
-                        android:textColor="@color/colorLightGray"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="15dp"
+                            android:src="@drawable/ic_celendar"
+                            android:contentDescription="TODO" />
+
+                        <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                            android:id="@+id/class_time_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thứ 2 : Tiết 123"
+                            android:textColor="@color/colorLightGray"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_room"
+                            android:contentDescription="TODO" />
+
+                        <com.project.attendanceforstudent.customfonts.Textview_lato_thin
+                            android:id="@+id/room_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:text="Phòng A3.07"
+                            android:textColor="@color/colorLightGray"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

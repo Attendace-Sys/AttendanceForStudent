@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.attendanceforstudent.Interface.CardClickListener;
@@ -44,7 +45,18 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
         viewHolder.teacher.setText(courses.get(i).getTeacherFirstName());
         viewHolder.time.setText(mtime);
         viewHolder.room.setText(courses.get(i).getCourseRoom());
-//        viewHolder.status.setText(courses.get(i).getStatus());
+
+        if ((i % 5) == 1)
+        {
+            viewHolder.imageCourse.setImageResource(R.drawable.course2);
+        } else if ((i % 5) == 2)
+        {
+            viewHolder.imageCourse.setImageResource(R.drawable.course3);
+        } else if ((i % 5) == 3)
+        {
+            viewHolder.imageCourse.setImageResource(R.drawable.course3);
+        }
+
 
         /*Use when you want to view detail on each card click*/
         viewHolder.setCardClickListener(new CardClickListener() {
@@ -76,6 +88,7 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
 
         TextView name, teacher, time, room, status;
         CardClickListener cardClickListener;
+        ImageView imageCourse;
 
         public ViewHolder(View view) {
             super(view);
@@ -83,8 +96,7 @@ public class CourseCardDataAdapter extends RecyclerView.Adapter<CourseCardDataAd
             teacher = (TextView) view.findViewById(R.id.teacher_name_txt);
             time = (TextView) view.findViewById(R.id.class_time_txt);
             room = (TextView) view.findViewById(R.id.room_txt);
-//            status = (TextView) view.findViewById(R.id.status_txt);
-
+            imageCourse = (ImageView) view.findViewById(R.id.imageCourse);
             view.setOnClickListener(this);
         }
 

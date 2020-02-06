@@ -22,26 +22,12 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 
 public interface ApiConfig {
-//    @Multipart
-//    @POST("students/serializer/students//")
-//    Call<ResponseBody> upload(
-//            @Part("student_code") RequestBody student_id,
-//            @Part("full_name") RequestBody student_name,
-//            @Part("email") RequestBody student_email,
-////            @PartMap Map<String, RequestBody> student_video_data
-//            @Part MultipartBody.Part student_video_data
-//            );
-//
-//    @Multipart
-//    @POST("students/serializer/images//")
-//    Call<ResponseBody> uploadImage(
-//            @Part("student") RequestBody student,
-//            @Part MultipartBody.Part image_data
-//    );
 
     @Multipart
-    @POST("students/new/")
+    @POST("students/edit/{student_code}/")
     Call<ResponseBody> uploadStudentProfile(
+            @Header("Authorization") String authorization,
+            @Path("student_code") String studentcode,
             @Part("student_code") RequestBody student_code,
             @Part("first_name") RequestBody student_name,
             @Part("email") RequestBody student_email,

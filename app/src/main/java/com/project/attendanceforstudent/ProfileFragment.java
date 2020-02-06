@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
 
     TextView studentId, studentName, studentEmail;
     Button collectDatabtn;
-    ImageButton logoutBtn;
+    Button logoutBtn;
 
 
     public ProfileFragment() {
@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
         studentName = (TextView) view.findViewById(R.id.fullNameTxt2);
         studentEmail = (TextView) view.findViewById(R.id.emailTxt2);
         collectDatabtn = (Button) view.findViewById(R.id.collect_data_btn);
-        logoutBtn = (ImageButton) view.findViewById(R.id.logout_btn);
+        logoutBtn = (Button) view.findViewById(R.id.logout_btn);
 
        studentId.setText(Global.studentid);
        studentName.setText(Global.studentname);

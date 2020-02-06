@@ -1,6 +1,7 @@
 package com.project.attendanceforstudent;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -23,24 +24,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        final Intent intent = getIntent();
-//        username = intent.getStringExtra("username");
-//        password = intent.getStringExtra("password");
-//        email = intent.getStringExtra("email");
-//        token = intent.getStringExtra("token");
-//        name = intent.getStringExtra("name");
+        Intent intent = getIntent();
+        String fragmentName = intent.getStringExtra("fragmentName");
+
 
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
+        if (fragmentName == null)
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        } else if (fragmentName.equals("profile"))
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+        }
     }
 
     HomeFragment homeFragment;
     ProfileFragment profileFragment;
-    NotificationFragment notificationFragment;
+//    NotificationFragment notificationFragment;
 
 
     @Override
@@ -52,18 +55,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, homeFragment).commit();
                 return true;
 
-            case R.id.navigation_notification:
-                notificationFragment = new NotificationFragment();
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, notificationFragment).commit();
-                return true;
+//            case R.id.navigation_notification:
+//                notificationFragment = new NotificationFragment();
+//                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, notificationFragment).commit();
+//                return true;
 
             case R.id.navigation_profile:
                 profileFragment = new ProfileFragment();
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.container, profileFragment).commit();
                 return true;
-
-
-
         }
 
         return false;
